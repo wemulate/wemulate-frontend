@@ -1,6 +1,6 @@
-import { Device } from './models/Device'
-import MgmtInterfaceList from './components/MgmtInterfaceList'
-import LogicalInterfaceList from './components/LogicalInterfaceList'
+import { Device } from '../models/Device'
+import LogicalInterfaceList from './LogicalInterfaceList'
+import MgmtInterfaceList from './MgmtInterfaceList'
 
 type Props = {
   device: Device

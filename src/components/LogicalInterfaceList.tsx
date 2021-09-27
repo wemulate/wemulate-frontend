@@ -4,6 +4,7 @@ import ListItemText from '@mui/material/ListItemText'
 import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Avatar from '@mui/material/Avatar'
 import CableIcon from '@mui/icons-material/Cable'
+import SettingsInputHdmiIcon from '@mui/icons-material/SettingsInputHdmi'
 import IconButton from '@mui/material/IconButton'
 import { LogicalInterface } from '../models/LogicalInterface'
 
@@ -35,7 +36,7 @@ const DeviceOverview: React.FC<Props> = ({ logicalInterfaces }) => {
                 secondary={x.physicalName}
               />
               <IconButton edge="end" aria-label="comments">
-                <CableIcon />
+                <SettingsInputHdmiIcon color="success" />
               </IconButton>
             </ListItem>
           )

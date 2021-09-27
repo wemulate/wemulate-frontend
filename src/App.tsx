@@ -12,6 +12,8 @@ import logo from './static/WEmulate_logo.png'
 import { version } from './../package.json'
 import SpeedDial from '@mui/material/SpeedDial'
 import AddIcon from '@mui/icons-material/Add'
+import Grid from '@mui/material/Grid'
+import './App.css'
 
 const App: React.FC = () => {
   const [device, setDevice] = useState<Device>(new Device([], []))
@@ -24,7 +26,7 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <AppBar position="static">
+      <AppBar position="static" sx={{ mb: 1 }}>
         <Toolbar>
           <img alt="logo" width={88} style={{ marginRight: 24 }} src={logo} />
           <Typography variant="h5" sx={{ flexGrow: 1 }}>
@@ -33,8 +35,14 @@ const App: React.FC = () => {
           <Typography>{version}</Typography>
         </Toolbar>
       </AppBar>
-      <DeviceOverview device={device} />
-      <ConnectionOverview connections={connections} />
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={12} md={6} lg={6}>
+          <DeviceOverview device={device} />
+        </Grid>
+        <Grid item xs={12} sm={12} md={6} lg={6}>
+          <ConnectionOverview connections={connections} />
+        </Grid>
+      </Grid>
       <SpeedDial
         ariaLabel="SpeedDial basic example"
         sx={{ position: 'fixed', bottom: 16, right: 16 }}

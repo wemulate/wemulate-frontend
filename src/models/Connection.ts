@@ -6,7 +6,7 @@ export class Connection {
     public secondLogicalInterfaceId: number,
     public delay: number,
     public packetLoss: number,
-    public bandwith: number,
+    public bandwidth: number,
     public jitter: number,
   ) {}
 
@@ -18,7 +18,7 @@ export class Connection {
       dto.second_logical_interface_id ? dto.second_logical_interface_id : 0,
       dto.delay ? dto.delay : 0,
       dto.packet_loss ? dto.packet_loss : 0,
-      dto.bandwith ? dto.bandwith : 0,
+      dto.bandwidth ? dto.bandwidth : 0,
       dto.jitter ? dto.jitter : 0,
     )
   }
@@ -31,7 +31,7 @@ export class Connection {
       second_logical_interface_id: this.secondLogicalInterfaceId,
       delay: this.delay,
       packet_loss: this.packetLoss,
-      bandwith: this.bandwith,
+      bandwidth: this.bandwidth,
       jitter: this.jitter,
     }
   }

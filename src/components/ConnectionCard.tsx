@@ -22,7 +22,7 @@ type Props = {
 const ConnectionCard: React.FC<Props> = ({ connection }) => {
   return (
     <div>
-      <Card sx={{ maxWidth: 300 }}>
+      <Card>
         <CardContent>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
             {connection.connectionName}
@@ -63,7 +63,7 @@ const ConnectionCard: React.FC<Props> = ({ connection }) => {
               </ListItemAvatar>
               <ListItemText
                 primary="Bandwith"
-                secondary={`${connection.bandwith} Mbit/s`}
+                secondary={`${connection.bandwidth} Mbit/s`}
               />
             </ListItem>
             <ListItem>

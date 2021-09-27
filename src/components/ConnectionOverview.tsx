@@ -10,9 +10,9 @@ const ConnectionOverview: React.FC<Props> = ({ connections }) => {
   return (
     <div>
       <Grid container spacing={2}>
-        {connections.map((connection) => {
+        {connections.map((connection, key) => {
           return (
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6} key={connection.connectionId}>
               <ConnectionCard connection={connection} />
             </Grid>
           )

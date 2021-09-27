@@ -14,15 +14,27 @@ import SpeedDial from '@mui/material/SpeedDial'
 import AddIcon from '@mui/icons-material/Add'
 import Grid from '@mui/material/Grid'
 import './App.css'
+import Dialog from '@mui/material/Dialog'
+import DialogContent from '@mui/material/DialogContent'
+import DialogTitle from '@mui/material/DialogTitle'
+import TextField from '@mui/material/TextField'
+import DialogActions from '@mui/material/DialogActions'
+import Button from '@mui/material/Button'
+import DialogContentText from '@mui/material/DialogContentText'
 
 const App: React.FC = () => {
   const [device, setDevice] = useState<Device>(new Device([], []))
   const [connections, setConnections] = useState<Array<Connection>>([
     new Connection('', 0, 0, 0, 0, 0, 0, 0),
   ])
+  // Link + dialog
+  const [openAddConnection, setAddConnection] = useState<boolean>(false)
 
   useEffect(() => setDevice(getDevices()), [])
   useEffect(() => setConnections(getConnections()), [])
+
+  const handleOpenAddConnection = () => setAddConnection(true)
+  const handleCloseAddConnection = () => setAddConnection(false)
 
   return (
     <div>
@@ -43,11 +55,34 @@ const App: React.FC = () => {
           <ConnectionOverview connections={connections} />
         </Grid>
       </Grid>
+
+      <Dialog open={openAddConnection} onClose={handleCloseAddConnection}>
+        <DialogTitle>Add New Connection</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Connect two logical interfaces together to setup jitter, packet lose
+            etc.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="connectionName"
+            label="Connection Name"
+            type="text"
+            fullWidth
+            variant="standard"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseAddConnection}>Cancel</Button>
+          <Button onClick={handleCloseAddConnection}>Add</Button>
+        </DialogActions>
+      </Dialog>
       <SpeedDial
         ariaLabel="SpeedDial basic example"
         sx={{ position: 'fixed', bottom: 16, right: 16 }}
         icon={<AddIcon />}
-        onClick={() => alert('test')}
+        onClick={handleOpenAddConnection}
       ></SpeedDial>
     </div>
   )

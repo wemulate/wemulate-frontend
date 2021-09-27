@@ -23,9 +23,9 @@ const LogicalInterfaceCard: React.FC<Props> = ({ logicalInterfaces }) => {
           Logical Interfaces
         </Typography>
         <List>
-          {logicalInterfaces.map((x, key) => {
+          {logicalInterfaces.map((x: LogicalInterface) => {
             return (
-              <ListItem key={key}>
+              <ListItem key={x.interfaceId}>
                 <ListItemAvatar>
                   <Avatar>
                     <CableIcon />

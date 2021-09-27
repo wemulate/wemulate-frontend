@@ -21,9 +21,9 @@ const MgmtInterfaceCard: React.FC<Props> = ({ mgmtInterfaces }) => {
           Management Interfaces
         </Typography>
         <List>
-          {mgmtInterfaces.map((x, key) => {
+          {mgmtInterfaces.map((x: MgmtInterface) => {
             return (
-              <ListItem key={key}>
+              <ListItem key={x.ip}>
                 <ListItemAvatar>
                   <Avatar>
                     <ManageAccountsIcon />

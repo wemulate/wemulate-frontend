@@ -4,7 +4,6 @@ import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import { Connection } from '../models/Connection'
-import SettingsEthernetIcon from '@mui/icons-material/SettingsEthernet'
 import ListItem from '@mui/material/ListItem'
 import Avatar from '@mui/material/Avatar'
 import ListItemAvatar from '@mui/material/ListItemAvatar'
@@ -28,9 +27,7 @@ const ConnectionCard: React.FC<Props> = ({ connection }) => {
             {connection.connectionName}
           </Typography>
           <Typography sx={{ mb: 1.5 }} variant="h5" component="div">
-            LAN A
-            <SettingsEthernetIcon sx={{ ml: 1, mr: 1 }} />
-            LAN B
+            {`LAN A <> LAN B`}
           </Typography>
           <List>
             <ListItem>

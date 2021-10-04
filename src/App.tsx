@@ -1,6 +1,3 @@
-import AppBar from '@mui/material/AppBar'
-import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
 import { useEffect, useState } from 'react'
 import ConnectionOverview from './components/ConnectionOverview'
 import DeviceOverview from './components/DeviceOverview'
@@ -8,13 +5,13 @@ import { Connection } from './models/Connection'
 import { Device } from './models/Device'
 import { getConnections } from './services/ConnectionService'
 import getDevices from './services/DeviceService'
-import logo from './static/wemulate_logo.png'
-import { version } from './../package.json'
 import SpeedDial from '@mui/material/SpeedDial'
 import AddIcon from '@mui/icons-material/Add'
 import Grid from '@mui/material/Grid'
 import './App.css'
 import AddConnectionDialog from './components/AddConnectionDialog'
+import TitleBar from './components/TitleBar'
+import Tooltip from '@mui/material/Tooltip'
 
 const App: React.FC = () => {
   const [device, setDevice] = useState<Device>(new Device([], []))
@@ -30,20 +27,16 @@ const App: React.FC = () => {
   const handleOpenAddConnection = () => setAddConnection(true)
   const handleCloseAddConnection = () => setAddConnection(false)
 
+  const usedInterfaceIds = connections
+    .map((x) => x.firstLogicalInterfaceId)
+    .concat(connections.map((x) => x.secondLogicalInterfaceId))
+
   return (
     <div>
-      <AppBar position="static" sx={{ mb: 1 }}>
-        <Toolbar>
-          <img alt="logo" width={88} style={{ marginRight: 24 }} src={logo} />
-          <Typography variant="h5" sx={{ flexGrow: 1 }}>
-            WEmulate
-          </Typography>
-          <Typography>{version}</Typography>
-        </Toolbar>
-      </AppBar>
+      <TitleBar />
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={6} lg={6}>
-          <DeviceOverview device={device} />
+          <DeviceOverview device={device} usedInterfaceIds={usedInterfaceIds} />
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={6}>
           <ConnectionOverview connections={connections} />
@@ -52,13 +45,17 @@ const App: React.FC = () => {
       <AddConnectionDialog
         onCloseHandler={handleCloseAddConnection}
         open={openAddConnection}
+        logicalInterfaces={device.logicalInterfaces}
+        usedInterfaceIds={usedInterfaceIds}
       />
-      <SpeedDial
-        ariaLabel="SpeedDial basic example"
-        sx={{ position: 'fixed', bottom: 16, right: 16 }}
-        icon={<AddIcon />}
-        onClick={handleOpenAddConnection}
-      ></SpeedDial>
+      <Tooltip title="Add a New Connection" placement="left" arrow>
+        <SpeedDial
+          ariaLabel="SpeedDial basic example"
+          sx={{ position: 'fixed', bottom: 16, right: 16 }}
+          icon={<AddIcon />}
+          onClick={handleOpenAddConnection}
+        ></SpeedDial>
+      </Tooltip>
     </div>
   )
 }

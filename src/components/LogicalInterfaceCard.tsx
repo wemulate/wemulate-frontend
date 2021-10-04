@@ -5,7 +5,6 @@ import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Avatar from '@mui/material/Avatar'
 import CableIcon from '@mui/icons-material/Cable'
 import SettingsInputHdmiIcon from '@mui/icons-material/SettingsInputHdmi'
-import IconButton from '@mui/material/IconButton'
 import { LogicalInterface } from '../models/LogicalInterface'
 import Typography from '@mui/material/Typography'
 import Card from '@mui/material/Card'
@@ -13,9 +12,13 @@ import CardContent from '@mui/material/CardContent'
 
 type Props = {
   logicalInterfaces: Array<LogicalInterface>
+  usedInterfaceIds: Array<number>
 }
 
-const LogicalInterfaceCard: React.FC<Props> = ({ logicalInterfaces }) => {
+const LogicalInterfaceCard: React.FC<Props> = ({
+  logicalInterfaces,
+  usedInterfaceIds,
+}) => {
   return (
     <Card>
       <CardContent>
@@ -35,9 +38,9 @@ const LogicalInterfaceCard: React.FC<Props> = ({ logicalInterfaces }) => {
                   primary={x.logicalName}
                   secondary={x.physicalName}
                 />
-                <IconButton edge="end" aria-label="comments">
+                {usedInterfaceIds.includes(x.interfaceId) && (
                   <SettingsInputHdmiIcon color="success" />
-                </IconButton>
+                )}
               </ListItem>
             )
           })}

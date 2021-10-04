@@ -23,11 +23,15 @@ const ConnectionCard: React.FC<Props> = ({ connection }) => {
     <div>
       <Card>
         <CardContent>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            {connection.connectionName}
+          <Typography variant="h5" component="div">
+            {`${connection.firstLogicalInterfaceId} - ${connection.secondLogicalInterfaceId}`}
           </Typography>
-          <Typography sx={{ mb: 1.5 }} variant="h5" component="div">
-            {`LAN A <> LAN B`}
+          <Typography
+            sx={{ fontSize: 14, mb: 1.5 }}
+            color="text.secondary"
+            gutterBottom
+          >
+            {connection.connectionName}
           </Typography>
           <List>
             <ListItem>
@@ -77,8 +81,8 @@ const ConnectionCard: React.FC<Props> = ({ connection }) => {
           </List>
         </CardContent>
         <CardActions>
-          <Button size="small">edit</Button>
-          <Button size="small">remove</Button>
+          <Button>edit</Button>
+          <Button>remove</Button>
         </CardActions>
       </Card>
     </div>

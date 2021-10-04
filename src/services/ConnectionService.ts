@@ -3,7 +3,7 @@ import { Connection } from '../models/Connection'
 export const getConnections = () => {
   return [
     {
-      connection_name: 'Connection1',
+      connection_name: 'Test Connection',
       connection_id: 1,
       first_logical_interface_id: 1,
       second_logical_interface_id: 2,
@@ -11,16 +11,6 @@ export const getConnections = () => {
       packet_loss: 5,
       bandwidth: 100,
       jitter: 10,
-    },
-    {
-      connection_name: 'Connection2',
-      connection_id: 2,
-      first_logical_interface_id: 3,
-      second_logical_interface_id: 4,
-      delay: 2,
-      packet_loss: 5,
-      bandwidth: 50,
-      jitter: 5,
     },
   ].map((x) => Connection.fromDto(x))
 }

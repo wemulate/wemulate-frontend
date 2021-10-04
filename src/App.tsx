@@ -4,7 +4,7 @@ import DeviceOverview from './components/DeviceOverview'
 import { Connection } from './models/Connection'
 import { Device } from './models/Device'
 import { getConnections } from './services/ConnectionService'
-import getDevices from './services/DeviceService'
+import getDevice from './services/DeviceService'
 import SpeedDial from '@mui/material/SpeedDial'
 import AddIcon from '@mui/icons-material/Add'
 import Grid from '@mui/material/Grid'
@@ -21,8 +21,15 @@ const App: React.FC = () => {
 
   const [openAddConnection, setAddConnection] = useState<boolean>(false)
 
-  useEffect(() => setDevice(getDevices()), [])
-  useEffect(() => setConnections(getConnections()), [])
+  useEffect(() => {
+    const asyncSetDevice = async () => setDevice(await getDevice())
+    asyncSetDevice()
+  }, [])
+  useEffect(() => {
+    const asyncSetConnections = async () =>
+      setConnections(await getConnections())
+    asyncSetConnections()
+  }, [])
 
   const handleOpenAddConnection = () => setAddConnection(true)
   const handleCloseAddConnection = () => setAddConnection(false)

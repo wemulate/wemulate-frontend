@@ -1,6 +1,6 @@
 import { Device } from '../models/Device'
 
-const getDevices = () => {
+const getDevice = async () => {
   return Device.fromDto({
     mgmt_interfaces: [
       {
@@ -37,4 +37,4 @@ const getDevices = () => {
   })
 }
 
-export default getDevices
+export default getDevice

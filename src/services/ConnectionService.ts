@@ -1,6 +1,6 @@
 import { Connection } from '../models/Connection'
 
-export const getConnections = () => {
+export const getConnections = async () => {
   return [
     {
       connection_name: 'Test Connection',

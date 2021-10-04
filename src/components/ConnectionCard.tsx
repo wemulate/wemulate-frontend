@@ -13,12 +13,28 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import CancelPresentationIcon from '@mui/icons-material/CancelPresentation'
 import SpeedIcon from '@mui/icons-material/Speed'
 import FlashOnIcon from '@mui/icons-material/FlashOn'
+import EditConnectionDialog from './EditConnectionDialog'
+import { useState } from 'react'
 
 type Props = {
   connection: Connection
+  editConnection: (x: Connection) => void
+  removeConnectionById: (x: number) => void
 }
 
-const ConnectionCard: React.FC<Props> = ({ connection }) => {
+const ConnectionCard: React.FC<Props> = ({
+  connection,
+  editConnection,
+  removeConnectionById,
+}) => {
+  const [openEditConnection, setOpenEditConnection] = useState<boolean>(false)
+  const handleOpenEditConnection = () => setOpenEditConnection(true)
+  const handleCloseEditConnection = () => setOpenEditConnection(false)
+
+  const deleteConnection = () => {
+    removeConnectionById(connection.connectionId)
+  }
+
   return (
     <div>
       <Card>
@@ -81,10 +97,16 @@ const ConnectionCard: React.FC<Props> = ({ connection }) => {
           </List>
         </CardContent>
         <CardActions>
-          <Button>edit</Button>
-          <Button>remove</Button>
+          <Button onClick={handleOpenEditConnection}>edit</Button>
+          <Button onClick={deleteConnection}>delete</Button>
         </CardActions>
       </Card>
+      <EditConnectionDialog
+        connection={connection}
+        onCloseHandler={handleCloseEditConnection}
+        editConnection={editConnection}
+        open={openEditConnection}
+      />
     </div>
   )
 }

@@ -46,7 +46,8 @@ const AddConnectionDialog: React.FC<Props> = ({
     },
   })
 
-  if (usedInterfaceIds.length < 2) {
+  //TODO: add cases when no logical interface is left or not enough are available
+  /*   if (usedInterfaceIds.length < 2) {
     return (
       <Dialog open={open} onClose={onCloseHandler}>
         <DialogTitle>Add a New Connection</DialogTitle>
@@ -60,7 +61,7 @@ const AddConnectionDialog: React.FC<Props> = ({
         </DialogActions>
       </Dialog>
     )
-  }
+  } */
 
   return (
     <Dialog open={open} onClose={onCloseHandler}>

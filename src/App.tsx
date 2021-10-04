@@ -19,7 +19,7 @@ const App: React.FC = () => {
     new Connection('', 0, 0, 0, 0, 0, 0, 0),
   ])
 
-  const [openAddConnection, setAddConnection] = useState<boolean>(false)
+  const [openAddConnection, setOpenAddConnection] = useState<boolean>(false)
 
   useEffect(() => {
     const asyncSetDevice = async () => setDevice(await getDevice())
@@ -31,8 +31,23 @@ const App: React.FC = () => {
     asyncSetConnections()
   }, [])
 
-  const handleOpenAddConnection = () => setAddConnection(true)
-  const handleCloseAddConnection = () => setAddConnection(false)
+  const handleOpenAddConnection = () => setOpenAddConnection(true)
+  const handleCloseAddConnection = () => setOpenAddConnection(false)
+
+  const removeConnectionById = (id: number) => {
+    setConnections(connections.filter((x) => x.connectionId !== id))
+  }
+
+  const editConnection = (connection: Connection) => {
+    const index = connections.findIndex(
+      (x) => x.connectionId === connection.connectionId,
+    )
+    setConnections((prevState) => {
+      const newState = [...prevState]
+      newState[index] = connection
+      return newState
+    })
+  }
 
   const usedInterfaceIds = connections
     .map((x) => x.firstLogicalInterfaceId)
@@ -46,7 +61,11 @@ const App: React.FC = () => {
           <DeviceOverview device={device} usedInterfaceIds={usedInterfaceIds} />
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={6}>
-          <ConnectionOverview connections={connections} />
+          <ConnectionOverview
+            connections={connections}
+            editConnection={editConnection}
+            removeConnectionById={removeConnectionById}
+          />
         </Grid>
       </Grid>
       <AddConnectionDialog

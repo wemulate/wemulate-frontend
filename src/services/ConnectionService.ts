@@ -12,6 +12,16 @@ export const getConnections = async () => {
       bandwidth: 100,
       jitter: 10,
     },
+    {
+      connection_name: 'My Test',
+      connection_id: 2,
+      first_logical_interface_id: 3,
+      second_logical_interface_id: 4,
+      delay: 4,
+      packet_loss: 6,
+      bandwidth: 1000,
+      jitter: 20,
+    },
   ].map((x) => Connection.fromDto(x))
 }
 

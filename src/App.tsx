@@ -57,6 +57,9 @@ const App: React.FC = () => {
     .map((x) => x.firstLogicalInterfaceId)
     .concat(connections.map((x) => x.secondLogicalInterfaceId))
 
+  const getLogicalInterfaceNameById = (id: number) =>
+    device.logicalInterfaces.find((x) => x.interfaceId === id)?.logicalName
+
   return (
     <div>
       <TitleBar />
@@ -69,6 +72,7 @@ const App: React.FC = () => {
             connections={connections}
             editConnection={editConnection}
             removeConnectionById={removeConnectionById}
+            getLogicalInterfaceNameById={getLogicalInterfaceNameById}
           />
         </Grid>
       </Grid>

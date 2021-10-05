@@ -6,12 +6,14 @@ type Props = {
   connections: Array<Connection>
   editConnection: (x: Connection) => void
   removeConnectionById: (x: number) => void
+  getLogicalInterfaceNameById: (id: number) => string | undefined
 }
 
 const ConnectionOverview: React.FC<Props> = ({
   connections,
   editConnection,
   removeConnectionById,
+  getLogicalInterfaceNameById,
 }) => {
   return (
     <div>
@@ -23,6 +25,7 @@ const ConnectionOverview: React.FC<Props> = ({
                 connection={connection}
                 editConnection={editConnection}
                 removeConnectionById={removeConnectionById}
+                getLogicalInterfaceNameById={getLogicalInterfaceNameById}
               />
             </Grid>
           )

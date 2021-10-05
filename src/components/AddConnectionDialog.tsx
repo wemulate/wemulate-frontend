@@ -57,7 +57,7 @@ const AddConnectionDialog: React.FC<Props> = ({
         <DialogContent>
           <DialogContentText>
             The current device does not have more than two logical interfaces
-            left!
+            {logicalInterfaces.length > 1 && ' left'}!
           </DialogContentText>
         </DialogContent>
         <DialogActions>

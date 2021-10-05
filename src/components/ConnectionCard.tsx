@@ -20,12 +20,14 @@ type Props = {
   connection: Connection
   editConnection: (x: Connection) => void
   removeConnectionById: (x: number) => void
+  getLogicalInterfaceNameById: (x: number) => string | undefined
 }
 
 const ConnectionCard: React.FC<Props> = ({
   connection,
   editConnection,
   removeConnectionById,
+  getLogicalInterfaceNameById,
 }) => {
   const [openEditConnection, setOpenEditConnection] = useState<boolean>(false)
   const handleOpenEditConnection = () => setOpenEditConnection(true)
@@ -40,7 +42,11 @@ const ConnectionCard: React.FC<Props> = ({
       <Card>
         <CardContent>
           <Typography variant="h5" component="div">
-            {`${connection.firstLogicalInterfaceId} - ${connection.secondLogicalInterfaceId}`}
+            {`${getLogicalInterfaceNameById(
+              connection.firstLogicalInterfaceId,
+            )} - ${getLogicalInterfaceNameById(
+              connection.secondLogicalInterfaceId,
+            )}`}
           </Typography>
           <Typography
             sx={{ fontSize: 14, mb: 1.5 }}

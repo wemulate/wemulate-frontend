@@ -7,10 +7,8 @@ import Button from '@mui/material/Button'
 import DialogContentText from '@mui/material/DialogContentText'
 import { LogicalInterface } from '../models/LogicalInterface'
 import MenuItem from '@mui/material/MenuItem'
-import Select from '@mui/material/Select'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
-import FormHelperText from '@mui/material/FormHelperText'
 import { Connection } from '../models/Connection'
 
 type Props = {
@@ -19,6 +17,7 @@ type Props = {
   logicalInterfaces: Array<LogicalInterface>
   usedInterfaceIds: Array<number>
   addConnection: (x: Connection) => void
+  connections: Array<Connection>
 }
 
 const AddConnectionDialog: React.FC<Props> = ({
@@ -27,21 +26,22 @@ const AddConnectionDialog: React.FC<Props> = ({
   logicalInterfaces,
   usedInterfaceIds,
   addConnection,
+  connections,
 }) => {
   const formSchema = yup.object({
-    connection_name: yup.string().required(),
+    connection_name: yup
+      .mixed()
+      .notOneOf(connections.map((x) => x.connectionName))
+      .required(),
     first_logical_interface_id: yup.number().required(),
-    second_logical_interface_id: yup
-      .number()
-      .required()
-      .moreThan(yup.ref('first_logical_interface_id'), 'Max should be > min'),
+    second_logical_interface_id: yup.number().required(),
   })
 
   const formik = useFormik({
     initialValues: {
       connection_name: '',
-      first_logical_interface_id: 3,
-      second_logical_interface_id: 4,
+      first_logical_interface_id: '',
+      second_logical_interface_id: '',
     },
     validationSchema: formSchema,
     onSubmit: (values) => {
@@ -86,22 +86,30 @@ const AddConnectionDialog: React.FC<Props> = ({
             fullWidth
             onChange={formik.handleChange}
             error={
+              formik.errors.connection_name !== undefined &&
               formik.touched.connection_name &&
-              Boolean(formik.errors.connection_name)
+              true
             }
             helperText={
               formik.touched.connection_name && formik.errors.connection_name
             }
           />
-          <Select
+          <TextField
+            select
             margin="dense"
             fullWidth
             id="first_logical_interface_id"
+            name="first_logical_interface_id"
             value={formik.values.first_logical_interface_id}
             onChange={formik.handleChange}
             error={
+              formik.errors.first_logical_interface_id !== undefined &&
               formik.touched.first_logical_interface_id &&
-              Boolean(formik.errors.first_logical_interface_id)
+              true
+            }
+            helperText={
+              formik.touched.first_logical_interface_id &&
+              formik.errors.first_logical_interface_id
             }
           >
             {logicalInterfaces.map((x) => {
@@ -113,36 +121,35 @@ const AddConnectionDialog: React.FC<Props> = ({
                 )
               )
             })}
-          </Select>
-          <FormHelperText>
-            {formik.touched.first_logical_interface_id &&
-              formik.errors.first_logical_interface_id}
-          </FormHelperText>
-          <Select
+          </TextField>
+          <TextField
+            select
             margin="dense"
             fullWidth
             id="second_logical_interface_id"
+            name="second_logical_interface_id"
             value={formik.values.second_logical_interface_id}
             onChange={formik.handleChange}
             error={
+              formik.errors.second_logical_interface_id !== undefined &&
               formik.touched.second_logical_interface_id &&
-              Boolean(formik.errors.second_logical_interface_id)
+              true
+            }
+            helperText={
+              formik.touched.second_logical_interface_id &&
+              formik.errors.second_logical_interface_id
             }
           >
             {logicalInterfaces.map((x) => {
               return (
                 !usedInterfaceIds.includes(x.interfaceId) && (
-                  <MenuItem key={x.interfaceId} value={x.interfaceId}>
+                  <MenuItem key={x.interfaceId || 10} value={x.interfaceId}>
                     {x.logicalName}
                   </MenuItem>
                 )
               )
             })}
-          </Select>
-          <FormHelperText>
-            {formik.touched.second_logical_interface_id &&
-              formik.errors.second_logical_interface_id}
-          </FormHelperText>
+          </TextField>
         </DialogContent>
         <DialogActions>
           <Button onClick={onCloseHandler}>Cancel</Button>

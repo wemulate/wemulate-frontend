@@ -82,6 +82,7 @@ const App: React.FC = () => {
         logicalInterfaces={device.logicalInterfaces}
         usedInterfaceIds={usedInterfaceIds}
         addConnection={addConnection}
+        connections={connections}
       />
       <Tooltip title="Add a New Connection" placement="left" arrow>
         <SpeedDial

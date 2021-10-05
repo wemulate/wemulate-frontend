@@ -44,7 +44,7 @@ const ConnectionCard: React.FC<Props> = ({
           <Typography variant="h5" component="div">
             {`${getLogicalInterfaceNameById(
               connection.firstLogicalInterfaceId,
-            )} - ${getLogicalInterfaceNameById(
+            )} <> ${getLogicalInterfaceNameById(
               connection.secondLogicalInterfaceId,
             )}`}
           </Typography>

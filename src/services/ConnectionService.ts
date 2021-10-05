@@ -6,7 +6,7 @@ export const getConnections = async () => {
       connection_name: 'Test Connection',
       connection_id: 1,
       first_logical_interface_id: 1,
-      second_logical_interface_id: 2,
+      second_logical_interface_id: 3,
       delay: 1,
       packet_loss: 5,
       bandwidth: 100,
@@ -15,7 +15,7 @@ export const getConnections = async () => {
     {
       connection_name: 'My Test',
       connection_id: 2,
-      first_logical_interface_id: 3,
+      first_logical_interface_id: 2,
       second_logical_interface_id: 4,
       delay: 4,
       packet_loss: 6,

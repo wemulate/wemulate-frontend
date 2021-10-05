@@ -79,7 +79,7 @@ const ConnectionCard: React.FC<Props> = ({
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary="Bandwith"
+                primary="Bandwidth"
                 secondary={`${connection.bandwidth} Mbit/s`}
               />
             </ListItem>

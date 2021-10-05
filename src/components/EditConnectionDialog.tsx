@@ -20,9 +20,29 @@ const EditConnectionDialog: React.FC<Props> = ({
   open,
   editConnection,
 }) => {
-  const save = () => editConnection(new Connection('33', 1, 0, 0, 0, 0, 0, 0))
+  const save = () => {
+    editConnection(
+      new Connection(
+        connectionName,
+        connection.connectionId,
+        connection.firstLogicalInterfaceId,
+        connection.secondLogicalInterfaceId,
+        delay,
+        packetLoss,
+        bandwidth,
+        jitter,
+      ),
+    )
+    onCloseHandler()
+  }
 
-  const [name, setName] = useState(connection.connectionName)
+  const [connectionName, setConnectionName] = useState(
+    connection.connectionName,
+  )
+  const [delay, setDelay] = useState(connection.delay)
+  const [packetLoss, setPacketLoss] = useState(connection.packetLoss)
+  const [bandwidth, setBandwidth] = useState(connection.bandwidth)
+  const [jitter, setJitter] = useState(connection.jitter)
 
   return (
     <Dialog open={open} onClose={onCloseHandler}>
@@ -30,45 +50,49 @@ const EditConnectionDialog: React.FC<Props> = ({
         <DialogTitle>Edit Connection</DialogTitle>
         <DialogContent>
           <TextField
-            value={name}
+            value={connectionName}
             margin="dense"
             id="connection_name"
             label="Connection Name"
             type="text"
             fullWidth
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setConnectionName(e.target.value)}
           />
           <TextField
-            value={connection.delay}
+            value={delay}
             margin="dense"
             id="delay"
             label="Delay in ms"
             type="number"
             fullWidth
+            onChange={(e) => setDelay(parseInt(e.target.value))}
           />
           <TextField
-            value={connection.packetLoss}
+            value={packetLoss}
             margin="dense"
             id="packet_loss"
             label="Packet Loss in %"
             type="number"
             fullWidth
+            onChange={(e) => setPacketLoss(parseInt(e.target.value))}
           />
           <TextField
-            value={connection.bandwidth}
+            value={bandwidth}
             margin="dense"
-            id="bandwith"
-            label="Bandwith in Mbit/s"
+            id="bandwidth"
+            label="Bandwidth in Mbit/s"
             type="number"
             fullWidth
+            onChange={(e) => setBandwidth(parseInt(e.target.value))}
           />
           <TextField
-            value={connection.jitter}
+            value={jitter}
             margin="dense"
             id="jitter"
             label="Jitter in ms"
             type="number"
             fullWidth
+            onChange={(e) => setJitter(parseInt(e.target.value))}
           />
         </DialogContent>
         <DialogActions>

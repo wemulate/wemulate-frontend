@@ -49,6 +49,10 @@ const App: React.FC = () => {
     })
   }
 
+  const addConnection = (connection: Connection) => {
+    setConnections((prevState) => [...prevState, connection])
+  }
+
   const usedInterfaceIds = connections
     .map((x) => x.firstLogicalInterfaceId)
     .concat(connections.map((x) => x.secondLogicalInterfaceId))
@@ -73,6 +77,7 @@ const App: React.FC = () => {
         open={openAddConnection}
         logicalInterfaces={device.logicalInterfaces}
         usedInterfaceIds={usedInterfaceIds}
+        addConnection={addConnection}
       />
       <Tooltip title="Add a New Connection" placement="left" arrow>
         <SpeedDial

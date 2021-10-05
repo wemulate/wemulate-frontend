@@ -11,12 +11,14 @@ import Select from '@mui/material/Select'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
 import FormHelperText from '@mui/material/FormHelperText'
+import { Connection } from '../models/Connection'
 
 type Props = {
   onCloseHandler: () => void
   open: boolean
   logicalInterfaces: Array<LogicalInterface>
   usedInterfaceIds: Array<number>
+  addConnection: (x: Connection) => void
 }
 
 const AddConnectionDialog: React.FC<Props> = ({
@@ -24,6 +26,7 @@ const AddConnectionDialog: React.FC<Props> = ({
   open,
   logicalInterfaces,
   usedInterfaceIds,
+  addConnection,
 }) => {
   const formSchema = yup.object({
     connection_name: yup.string().required(),
@@ -42,18 +45,19 @@ const AddConnectionDialog: React.FC<Props> = ({
     },
     validationSchema: formSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2))
+      addConnection(Connection.fromDto(values))
+      onCloseHandler()
     },
   })
 
-  //TODO: add cases when no logical interface is left or not enough are available
-  /*   if (usedInterfaceIds.length < 2) {
+  if (logicalInterfaces.length - usedInterfaceIds.length < 2) {
     return (
       <Dialog open={open} onClose={onCloseHandler}>
         <DialogTitle>Add a New Connection</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            The current device does not have more than two logical interfaces!
+            The current device does not have more than two logical interfaces
+            left!
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -61,7 +65,7 @@ const AddConnectionDialog: React.FC<Props> = ({
         </DialogActions>
       </Dialog>
     )
-  } */
+  }
 
   return (
     <Dialog open={open} onClose={onCloseHandler}>

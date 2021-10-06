@@ -50,6 +50,12 @@ const EditConnectionDialog: React.FC<Props> = ({
     },
     validationSchema: formSchema,
     onSubmit: (values) => {
+      // onCloseHandler has to be called first,
+      // otherwise react shows an error because of state
+      // e.g. when updating the connection name
+      // that is updated in an unmounted component
+      // TODO: understand whyd...
+      onCloseHandler()
       editConnection(
         new Connection(
           values.connection_name,
@@ -62,7 +68,6 @@ const EditConnectionDialog: React.FC<Props> = ({
           values.jitter,
         ),
       )
-      onCloseHandler()
     },
   })
 

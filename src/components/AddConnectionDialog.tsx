@@ -59,8 +59,8 @@ const AddConnectionDialog: React.FC<Props> = ({
       // MenuItem available anymore (after creating the connection)
       // https://github.com/mui-org/material-ui/issues/18494
       resetForm()
-      addConnection(Connection.fromDto(values))
       onCloseHandler()
+      addConnection(Connection.fromDto(values))
     },
   })
 

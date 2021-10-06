@@ -20,7 +20,8 @@ const ConnectionOverview: React.FC<Props> = ({
       <Grid container spacing={2}>
         {connections.map((connection) => {
           return (
-            <Grid item xs={12} sm={6} key={connection.connectionId}>
+            //TODO: Maybe use connectionid as key in the future
+            <Grid item xs={12} sm={6} key={connection.connectionName}>
               <ConnectionCard
                 connection={connection}
                 editConnection={editConnection}

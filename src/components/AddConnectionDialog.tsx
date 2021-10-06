@@ -44,7 +44,12 @@ const AddConnectionDialog: React.FC<Props> = ({
       second_logical_interface_id: '',
     },
     validationSchema: formSchema,
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm }) => {
+      // resetForm() is needed so the select fields do not generate
+      // an out of range warning because the value given is not as
+      // MenuItem available anymore (after creating the connection)
+      // https://github.com/mui-org/material-ui/issues/18494
+      resetForm()
       addConnection(Connection.fromDto(values))
       onCloseHandler()
     },
@@ -143,7 +148,7 @@ const AddConnectionDialog: React.FC<Props> = ({
             {logicalInterfaces.map((x) => {
               return (
                 !usedInterfaceIds.includes(x.interfaceId) && (
-                  <MenuItem key={x.interfaceId || 10} value={x.interfaceId}>
+                  <MenuItem key={x.interfaceId} value={x.interfaceId}>
                     {x.logicalName}
                   </MenuItem>
                 )

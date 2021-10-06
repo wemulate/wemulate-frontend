@@ -57,6 +57,10 @@ const App: React.FC = () => {
     .map((x) => x.firstLogicalInterfaceId)
     .concat(connections.map((x) => x.secondLogicalInterfaceId))
 
+  const unusedLogicalInterfaces = device.logicalInterfaces.filter(
+    (x) => !usedInterfaceIds.includes(x.interfaceId),
+  )
+
   const getLogicalInterfaceNameById = (id: number) =>
     device.logicalInterfaces.find((x) => x.interfaceId === id)?.logicalName
 
@@ -80,7 +84,7 @@ const App: React.FC = () => {
         onCloseHandler={handleCloseAddConnection}
         open={openAddConnection}
         logicalInterfaces={device.logicalInterfaces}
-        usedInterfaceIds={usedInterfaceIds}
+        unusedLogicalInterfaces={unusedLogicalInterfaces}
         addConnection={addConnection}
         connections={connections}
       />

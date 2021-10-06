@@ -15,7 +15,7 @@ type Props = {
   onCloseHandler: () => void
   open: boolean
   logicalInterfaces: Array<LogicalInterface>
-  usedInterfaceIds: Array<number>
+  unusedLogicalInterfaces: Array<LogicalInterface>
   addConnection: (x: Connection) => void
   connections: Array<Connection>
 }
@@ -24,7 +24,7 @@ const AddConnectionDialog: React.FC<Props> = ({
   onCloseHandler,
   open,
   logicalInterfaces,
-  usedInterfaceIds,
+  unusedLogicalInterfaces,
   addConnection,
   connections,
 }) => {
@@ -34,7 +34,16 @@ const AddConnectionDialog: React.FC<Props> = ({
       .notOneOf(connections.map((x) => x.connectionName))
       .required(),
     first_logical_interface_id: yup.number().required(),
-    second_logical_interface_id: yup.number().required(),
+    second_logical_interface_id: yup
+      .number()
+      .required()
+      .test(
+        'invalid',
+        'a connection between the same interface is not possible',
+        function (second) {
+          return this.parent.first_logical_interface_id !== second
+        },
+      ),
   })
 
   const formik = useFormik({
@@ -55,7 +64,7 @@ const AddConnectionDialog: React.FC<Props> = ({
     },
   })
 
-  if (logicalInterfaces.length - usedInterfaceIds.length < 2) {
+  if (unusedLogicalInterfaces.length < 2) {
     return (
       <Dialog open={open} onClose={onCloseHandler}>
         <DialogTitle>Add a New Connection</DialogTitle>
@@ -117,13 +126,11 @@ const AddConnectionDialog: React.FC<Props> = ({
               formik.errors.first_logical_interface_id
             }
           >
-            {logicalInterfaces.map((x) => {
+            {unusedLogicalInterfaces.map((x) => {
               return (
-                !usedInterfaceIds.includes(x.interfaceId) && (
-                  <MenuItem key={x.interfaceId} value={x.interfaceId}>
-                    {x.logicalName}
-                  </MenuItem>
-                )
+                <MenuItem key={x.interfaceId} value={x.interfaceId}>
+                  {x.logicalName}
+                </MenuItem>
               )
             })}
           </TextField>
@@ -145,13 +152,11 @@ const AddConnectionDialog: React.FC<Props> = ({
               formik.errors.second_logical_interface_id
             }
           >
-            {logicalInterfaces.map((x) => {
+            {unusedLogicalInterfaces.map((x) => {
               return (
-                !usedInterfaceIds.includes(x.interfaceId) && (
-                  <MenuItem key={x.interfaceId} value={x.interfaceId}>
-                    {x.logicalName}
-                  </MenuItem>
-                )
+                <MenuItem key={x.interfaceId} value={x.interfaceId}>
+                  {x.logicalName}
+                </MenuItem>
               )
             })}
           </TextField>

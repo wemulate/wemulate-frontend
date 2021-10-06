@@ -26,6 +26,7 @@ const ConnectionOverview: React.FC<Props> = ({
                 editConnection={editConnection}
                 removeConnectionById={removeConnectionById}
                 getLogicalInterfaceNameById={getLogicalInterfaceNameById}
+                connections={connections}
               />
             </Grid>
           )

@@ -5,13 +5,15 @@ import DialogTitle from '@mui/material/DialogTitle'
 import TextField from '@mui/material/TextField'
 import DialogActions from '@mui/material/DialogActions'
 import Button from '@mui/material/Button'
-import { useState } from 'react'
+import * as yup from 'yup'
+import { useFormik } from 'formik'
 
 type Props = {
   connection: Connection
   onCloseHandler: () => void
   open: boolean
   editConnection: (x: Connection) => void
+  connections: Array<Connection>
 }
 
 const EditConnectionDialog: React.FC<Props> = ({
@@ -19,85 +21,140 @@ const EditConnectionDialog: React.FC<Props> = ({
   onCloseHandler,
   open,
   editConnection,
+  connections,
 }) => {
-  const save = () => {
-    editConnection(
-      new Connection(
-        connectionName,
-        connection.connectionId,
-        connection.firstLogicalInterfaceId,
-        connection.secondLogicalInterfaceId,
-        delay,
-        packetLoss,
-        bandwidth,
-        jitter,
-      ),
-    )
-    onCloseHandler()
-  }
+  const formSchema = yup.object({
+    connection_name: yup
+      .mixed()
+      .notOneOf(
+        connections.map((x) =>
+          x.connectionName !== connection.connectionName
+            ? x.connectionName
+            : '',
+        ),
+      )
+      .required(),
+    delay: yup.number().min(0).required(),
+    packet_loss: yup.number().min(0).max(100).required(),
+    bandwidth: yup.number().min(0).required(),
+    jitter: yup.number().min(0).required(),
+  })
 
-  const [connectionName, setConnectionName] = useState(
-    connection.connectionName,
-  )
-  const [delay, setDelay] = useState(connection.delay)
-  const [packetLoss, setPacketLoss] = useState(connection.packetLoss)
-  const [bandwidth, setBandwidth] = useState(connection.bandwidth)
-  const [jitter, setJitter] = useState(connection.jitter)
+  const formik = useFormik({
+    initialValues: {
+      connection_name: connection.connectionName,
+      delay: connection.delay,
+      packet_loss: connection.packetLoss,
+      bandwidth: connection.bandwidth,
+      jitter: connection.jitter,
+    },
+    validationSchema: formSchema,
+    onSubmit: (values) => {
+      editConnection(
+        new Connection(
+          values.connection_name,
+          connection.connectionId,
+          connection.firstLogicalInterfaceId,
+          connection.secondLogicalInterfaceId,
+          values.delay,
+          values.packet_loss,
+          values.bandwidth,
+          values.jitter,
+        ),
+      )
+      onCloseHandler()
+    },
+  })
 
   return (
     <Dialog open={open} onClose={onCloseHandler}>
-      <form>
+      <form onSubmit={formik.handleSubmit}>
         <DialogTitle>Edit Connection</DialogTitle>
         <DialogContent>
           <TextField
-            value={connectionName}
             margin="dense"
             id="connection_name"
+            name="connection_name"
             label="Connection Name"
             type="text"
             fullWidth
-            onChange={(e) => setConnectionName(e.target.value)}
+            value={formik.values.connection_name}
+            onChange={formik.handleChange}
+            error={
+              formik.errors.connection_name !== undefined &&
+              formik.touched.connection_name &&
+              true
+            }
+            helperText={
+              formik.touched.connection_name && formik.errors.connection_name
+            }
           />
           <TextField
-            value={delay}
             margin="dense"
             id="delay"
+            name="delay"
             label="Delay in ms"
             type="number"
             fullWidth
-            onChange={(e) => setDelay(parseInt(e.target.value))}
+            value={formik.values.delay}
+            onChange={formik.handleChange}
+            error={
+              formik.errors.delay !== undefined && formik.touched.delay && true
+            }
+            helperText={formik.touched.delay && formik.errors.delay}
           />
           <TextField
-            value={packetLoss}
             margin="dense"
             id="packet_loss"
+            name="packet_loss"
             label="Packet Loss in %"
             type="number"
             fullWidth
-            onChange={(e) => setPacketLoss(parseInt(e.target.value))}
+            value={formik.values.packet_loss}
+            onChange={formik.handleChange}
+            error={
+              formik.errors.packet_loss !== undefined &&
+              formik.touched.packet_loss &&
+              true
+            }
+            helperText={formik.touched.packet_loss && formik.errors.packet_loss}
           />
           <TextField
-            value={bandwidth}
             margin="dense"
             id="bandwidth"
+            name="bandwidth"
             label="Bandwidth in Mbit/s"
             type="number"
             fullWidth
-            onChange={(e) => setBandwidth(parseInt(e.target.value))}
+            value={formik.values.bandwidth}
+            onChange={formik.handleChange}
+            error={
+              formik.errors.bandwidth !== undefined &&
+              formik.touched.bandwidth &&
+              true
+            }
+            helperText={formik.touched.bandwidth && formik.errors.bandwidth}
           />
           <TextField
-            value={jitter}
             margin="dense"
             id="jitter"
+            name="jitter"
             label="Jitter in ms"
             type="number"
             fullWidth
-            onChange={(e) => setJitter(parseInt(e.target.value))}
+            value={formik.values.jitter}
+            onChange={formik.handleChange}
+            error={
+              formik.errors.jitter !== undefined &&
+              formik.touched.jitter &&
+              true
+            }
+            helperText={formik.touched.jitter && formik.errors.jitter}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={onCloseHandler}>Cancel</Button>
-          <Button onClick={save}>Save</Button>
+          <Button type="submit">Save</Button>
         </DialogActions>
       </form>
     </Dialog>

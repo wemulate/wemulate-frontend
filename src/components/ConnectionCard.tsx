@@ -21,6 +21,7 @@ type Props = {
   editConnection: (x: Connection) => void
   removeConnectionById: (x: number) => void
   getLogicalInterfaceNameById: (x: number) => string | undefined
+  connections: Array<Connection>
 }
 
 const ConnectionCard: React.FC<Props> = ({
@@ -28,6 +29,7 @@ const ConnectionCard: React.FC<Props> = ({
   editConnection,
   removeConnectionById,
   getLogicalInterfaceNameById,
+  connections,
 }) => {
   const [openEditConnection, setOpenEditConnection] = useState<boolean>(false)
   const handleOpenEditConnection = () => setOpenEditConnection(true)
@@ -112,6 +114,7 @@ const ConnectionCard: React.FC<Props> = ({
         onCloseHandler={handleCloseEditConnection}
         editConnection={editConnection}
         open={openEditConnection}
+        connections={connections}
       />
     </div>
   )

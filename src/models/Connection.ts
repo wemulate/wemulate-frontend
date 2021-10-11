@@ -18,7 +18,7 @@ export class Connection {
       dto.second_logical_interface_id ? dto.second_logical_interface_id : 0,
       dto.delay ? dto.delay : 0,
       dto.packet_loss ? dto.packet_loss : 0,
-      dto.bandwidth ? dto.bandwidth : 0,
+      dto.bandwidth ? dto.bandwidth : 1000,
       dto.jitter ? dto.jitter : 0,
     )
   }

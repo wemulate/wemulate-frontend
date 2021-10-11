@@ -3,7 +3,12 @@ import ConnectionOverview from './components/ConnectionOverview'
 import DeviceOverview from './components/DeviceOverview'
 import { Connection } from './models/Connection'
 import { Device } from './models/Device'
-import { getConnections } from './services/ConnectionService'
+import {
+  deleteConnection,
+  getConnections,
+  postConnection,
+  putConnection,
+} from './services/ConnectionService'
 import { getDevice } from './services/DeviceService'
 import SpeedDial from '@mui/material/SpeedDial'
 import AddIcon from '@mui/icons-material/Add'
@@ -12,45 +17,70 @@ import './App.css'
 import AddConnectionDialog from './components/AddConnectionDialog'
 import TitleBar from './components/TitleBar'
 import Tooltip from '@mui/material/Tooltip'
+import LinearProgress from '@mui/material/LinearProgress'
+import { CustomError } from './models/CustomError'
 
 const App: React.FC = () => {
   const [device, setDevice] = useState<Device>(new Device([], []))
-  const [connections, setConnections] = useState<Array<Connection>>([
-    new Connection('', 0, 0, 0, 0, 0, 0, 0),
-  ])
-
+  const [connections, setConnections] = useState<Array<Connection>>([])
   const [openAddConnection, setOpenAddConnection] = useState<boolean>(false)
+  const [initLoading, setInitLoading] = useState<boolean>(true)
+  const [error, setError] = useState<CustomError | null>(null)
 
   useEffect(() => {
-    const asyncSetDevice = async () => setDevice(await getDevice())
-    asyncSetDevice()
+    const asyncInit = async () => {
+      try {
+        setDevice(await getDevice())
+        setConnections(await getConnections())
+        setInitLoading(false)
+      } catch (e) {
+        setError(new CustomError((e as Error).message))
+      }
+    }
+    asyncInit()
   }, [])
-  useEffect(() => {
-    const asyncSetConnections = async () =>
-      setConnections(await getConnections())
-    asyncSetConnections()
-  }, [])
+
+  const removeError = () => {
+    setError(null)
+  }
 
   const handleOpenAddConnection = () => setOpenAddConnection(true)
   const handleCloseAddConnection = () => setOpenAddConnection(false)
 
-  const removeConnectionById = (id: number) => {
-    setConnections(connections.filter((x) => x.connectionId !== id))
+  const removeConnection = async (connection: Connection) => {
+    try {
+      await deleteConnection(connection)
+      setConnections(
+        connections.filter((x) => x.connectionId !== connection.connectionId),
+      )
+    } catch (e) {
+      setError(new CustomError((e as Error).message))
+    }
   }
 
-  const editConnection = (connection: Connection) => {
-    const index = connections.findIndex(
-      (x) => x.connectionId === connection.connectionId,
-    )
-    setConnections((prevState) => {
-      const newState = [...prevState]
-      newState[index] = connection
-      return newState
-    })
+  const editConnection = async (connection: Connection) => {
+    try {
+      await putConnection(connection)
+      const index = connections.findIndex(
+        (x) => x.connectionId === connection.connectionId,
+      )
+      setConnections((prevState) => {
+        const newState = [...prevState]
+        newState[index] = connection
+        return newState
+      })
+    } catch (e) {
+      setError(new CustomError((e as Error).message))
+    }
   }
 
-  const addConnection = (connection: Connection) => {
-    setConnections((prevState) => [...prevState, connection])
+  const addConnection = async (connection: Connection) => {
+    try {
+      const newConnection = await postConnection(connection)
+      setConnections((prevState) => [...prevState, newConnection])
+    } catch (e) {
+      setError(new CustomError((e as Error).message))
+    }
   }
 
   const usedInterfaceIds = connections
@@ -64,9 +94,18 @@ const App: React.FC = () => {
   const getLogicalInterfaceNameById = (id: number) =>
     device.logicalInterfaces.find((x) => x.interfaceId === id)?.logicalName
 
+  if (initLoading) {
+    return (
+      <div>
+        <TitleBar error={error} removeError={removeError} />
+        <LinearProgress />
+      </div>
+    )
+  }
+
   return (
     <div>
-      <TitleBar />
+      <TitleBar error={error} removeError={removeError} />
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={6} lg={6}>
           <DeviceOverview device={device} usedInterfaceIds={usedInterfaceIds} />
@@ -75,7 +114,7 @@ const App: React.FC = () => {
           <ConnectionOverview
             connections={connections}
             editConnection={editConnection}
-            removeConnectionById={removeConnectionById}
+            removeConnection={removeConnection}
             getLogicalInterfaceNameById={getLogicalInterfaceNameById}
           />
         </Grid>

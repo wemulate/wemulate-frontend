@@ -5,14 +5,14 @@ import ConnectionCard from './ConnectionCard'
 type Props = {
   connections: Array<Connection>
   editConnection: (x: Connection) => void
-  removeConnectionById: (x: number) => void
+  removeConnection: (x: Connection) => void
   getLogicalInterfaceNameById: (id: number) => string | undefined
 }
 
 const ConnectionOverview: React.FC<Props> = ({
   connections,
   editConnection,
-  removeConnectionById,
+  removeConnection,
   getLogicalInterfaceNameById,
 }) => {
   return (
@@ -25,7 +25,7 @@ const ConnectionOverview: React.FC<Props> = ({
               <ConnectionCard
                 connection={connection}
                 editConnection={editConnection}
-                removeConnectionById={removeConnectionById}
+                removeConnection={removeConnection}
                 getLogicalInterfaceNameById={getLogicalInterfaceNameById}
                 connections={connections}
               />

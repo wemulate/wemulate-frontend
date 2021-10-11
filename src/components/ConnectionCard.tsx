@@ -19,7 +19,7 @@ import { useState } from 'react'
 type Props = {
   connection: Connection
   editConnection: (x: Connection) => void
-  removeConnectionById: (x: number) => void
+  removeConnection: (x: Connection) => void
   getLogicalInterfaceNameById: (x: number) => string | undefined
   connections: Array<Connection>
 }
@@ -27,7 +27,7 @@ type Props = {
 const ConnectionCard: React.FC<Props> = ({
   connection,
   editConnection,
-  removeConnectionById,
+  removeConnection,
   getLogicalInterfaceNameById,
   connections,
 }) => {
@@ -36,7 +36,7 @@ const ConnectionCard: React.FC<Props> = ({
   const handleCloseEditConnection = () => setOpenEditConnection(false)
 
   const deleteConnection = () => {
-    removeConnectionById(connection.connectionId)
+    removeConnection(connection)
   }
 
   return (

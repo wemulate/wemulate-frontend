@@ -2,20 +2,18 @@ import { Connection } from '../models/Connection'
 import ConfigService from './ConfigService'
 
 export const getConnections = async (): Promise<Array<Connection>> => {
-  const response = await fetch(
-    `${ConfigService.socketAddress}/api/v1/connections`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+  const response = await fetch(`${ConfigService.host}/api/v1/connections`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
     },
-  )
+  })
   if (response.status !== 200) {
     throw new Error(
       `${response.status} - ${response.statusText}: ${response.url}`,
     )
   }
+
   const connectionsResponse = await response.json()
   return connectionsResponse.connections.map((x: any) => Connection.fromDto(x))
 }
@@ -23,10 +21,10 @@ export const getConnections = async (): Promise<Array<Connection>> => {
 export const connectionRequest = async (
   method: string,
   connection: Connection,
-  id: number | null = null,
+  id: string = '',
 ) => {
   const response = await fetch(
-    `${ConfigService.socketAddress}/api/v1/connections/${id}`,
+    `${ConfigService.host}/api/v1/connections/${id}`,
     {
       method,
       headers: {
@@ -49,9 +47,17 @@ export const postConnection = async (connection: Connection) => {
 }
 
 export const putConnection = async (connection: Connection) => {
-  return await connectionRequest('PUT', connection, connection.connectionId)
+  return await connectionRequest(
+    'PUT',
+    connection,
+    `${connection.connectionId}`,
+  )
 }
 
 export const deleteConnection = async (connection: Connection) => {
-  return await connectionRequest('DELETE', connection, connection.connectionId)
+  return await connectionRequest(
+    'DELETE',
+    connection,
+    `${connection.connectionId}`,
+  )
 }

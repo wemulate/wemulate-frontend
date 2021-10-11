@@ -20,12 +20,15 @@ export const getConnections = async (): Promise<Array<Connection>> => {
   return connectionsResponse.connections.map((x: any) => Connection.fromDto(x))
 }
 
-export const postConnection = async (connection: Connection) => {
-  console.log(connection)
+export const connectionRequest = async (
+  method: string,
+  connection: Connection,
+  id: number | null = null,
+) => {
   const response = await fetch(
-    `${ConfigService.socketAddress}/api/v1/connections`,
+    `${ConfigService.socketAddress}/api/v1/connections/${id}`,
     {
-      method: 'POST',
+      method,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -39,44 +42,16 @@ export const postConnection = async (connection: Connection) => {
     )
   }
   return Connection.fromDto(await response.json())
+}
+
+export const postConnection = async (connection: Connection) => {
+  return await connectionRequest('POST', connection)
 }
 
 export const putConnection = async (connection: Connection) => {
-  const response = await fetch(
-    `${ConfigService.socketAddress}/api/v1/connections/${connection.connectionId}`,
-    {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(connection.toDto()),
-    },
-  )
-
-  if (response.status !== 200) {
-    throw new Error(
-      `${response.status} - ${response.statusText}: ${response.url}`,
-    )
-  }
-  return Connection.fromDto(await response.json())
+  return await connectionRequest('PUT', connection, connection.connectionId)
 }
 
 export const deleteConnection = async (connection: Connection) => {
-  const response = await fetch(
-    `${ConfigService.socketAddress}/api/v1/connections/${connection.connectionId}`,
-    {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(connection.toDto()),
-    },
-  )
-
-  if (response.status !== 200) {
-    throw new Error(
-      `${response.status} - ${response.statusText}: ${response.url}`,
-    )
-  }
-  return Connection.fromDto(await response.json())
+  return await connectionRequest('DELETE', connection, connection.connectionId)
 }

@@ -24,25 +24,14 @@ const EditConnectionDialog: React.FC<Props> = ({
   connections,
 }) => {
   const formSchema = yup.object({
-    connection_name: yup
-      .mixed()
-      .notOneOf(
-        connections.map((x) =>
-          x.connectionName !== connection.connectionName
-            ? x.connectionName
-            : '',
-        ),
-      )
-      .required(),
-    delay: yup.number().min(0).required(),
+    delay: yup.number().min(0).max(100000).required(),
     packet_loss: yup.number().min(0).max(100).required(),
-    bandwidth: yup.number().min(0).required(),
-    jitter: yup.number().min(0).required(),
+    bandwidth: yup.number().min(0).max(100000).required(),
+    jitter: yup.number().min(0).max(100000).required(),
   })
 
   const formik = useFormik({
     initialValues: {
-      connection_name: connection.connectionName,
       delay: connection.delay,
       packet_loss: connection.packetLoss,
       bandwidth: connection.bandwidth,
@@ -51,14 +40,14 @@ const EditConnectionDialog: React.FC<Props> = ({
     validationSchema: formSchema,
     onSubmit: (values) => {
       // onCloseHandler has to be called first,
-      // otherwise react shows an error because of state
+      // otherwise react shows an error because of its state
       // e.g. when updating the connection name
       // that is updated in an unmounted component
       // TODO: understand whyd...
       onCloseHandler()
       editConnection(
         new Connection(
-          values.connection_name,
+          connection.connectionName,
           connection.connectionId,
           connection.firstLogicalInterfaceId,
           connection.secondLogicalInterfaceId,
@@ -74,26 +63,8 @@ const EditConnectionDialog: React.FC<Props> = ({
   return (
     <Dialog open={open} onClose={onCloseHandler}>
       <form onSubmit={formik.handleSubmit}>
-        <DialogTitle>Edit Connection</DialogTitle>
+        <DialogTitle>Edit Connection: {connection.connectionName}</DialogTitle>
         <DialogContent>
-          <TextField
-            margin="dense"
-            id="connection_name"
-            name="connection_name"
-            label="Connection Name"
-            type="text"
-            fullWidth
-            value={formik.values.connection_name}
-            onChange={formik.handleChange}
-            error={
-              formik.errors.connection_name !== undefined &&
-              formik.touched.connection_name &&
-              true
-            }
-            helperText={
-              formik.touched.connection_name && formik.errors.connection_name
-            }
-          />
           <TextField
             margin="dense"
             id="delay"

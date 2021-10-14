@@ -30,20 +30,22 @@ const AddConnectionDialog: React.FC<Props> = ({
 }) => {
   const formSchema = yup.object({
     connection_name: yup
-      .mixed()
+      .string()
       .notOneOf(connections.map((x) => x.connectionName))
+      .max(15)
+      .matches(/^[a-zA-Z0-9]+$/, 'only alphanumeric symbols allowed')
       .required(),
     first_logical_interface_id: yup.number().required(),
     second_logical_interface_id: yup
       .number()
-      .required()
       .test(
         'invalid',
         'a connection between the same interface is not possible',
         function (second) {
           return this.parent.first_logical_interface_id !== second
         },
-      ),
+      )
+      .required(),
   })
 
   const formik = useFormik({

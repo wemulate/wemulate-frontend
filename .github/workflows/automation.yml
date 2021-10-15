@@ -1,17 +1,17 @@
-name: Build & Release WEmulate frontend
+name: Build & Release WEmulate Frontend
 on: push
 jobs:
   build:
     name: Build Frontend
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v2
-      - name: Install NPM dependencies
+      - name: Install NPM Dependencies
         run: npm install
-      - name: Build app
+      - name: Build App
         run: npm run build
-      - name: Create artifact
+      - name: Create Artifact
         uses: actions/upload-artifact@v2
         with:
           name: artifact
@@ -22,21 +22,24 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Download artifact
+      - name: Download Artifact
         uses: actions/download-artifact@v2
         with:
           name: artifact
           path: build
-      - name: Create ZIP file
+      - name: Create ZIP File
         run: cd build && zip -r ../release.zip .
+      - name: Get Release Version
+        id: release_version
+        uses: martinbeentjes/npm-get-version-action@master
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ github.run_number }}
-          release_name: Release v${{ github.run_number }}
+          tag_name: v${{ steps.release_version.outputs.current-version }}
+          release_name: Release v${{ steps.release_version.outputs.current-version }}
       - name: Upload Release
         uses: actions/upload-release-asset@v1
         env:

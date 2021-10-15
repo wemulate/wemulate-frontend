@@ -26,10 +26,13 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: artifact
+          path: build
+
       - name: Display structure of downloaded files
         run: ls
+
       - name: Create ZIP file
-        run:  mv . ./build && zip -r release.zip build
+        run: zip -r release.zip build
       
       - name: Display structure of downloaded files
         run: ls

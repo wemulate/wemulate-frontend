@@ -28,9 +28,8 @@ jobs:
           name: artifact
       - name: Display structure of downloaded files
         run: ls
-
       - name: Create ZIP file
-        run: zip -r release.zip build
+        run:  mv . ./build && zip -r release.zip build
       
       - name: Display structure of downloaded files
         run: ls

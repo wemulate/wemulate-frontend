@@ -27,16 +27,8 @@ jobs:
         with:
           name: artifact
           path: build
-
-      - name: Display structure of downloaded files
-        run: ls
-
       - name: Create ZIP file
-        run: zip -r release.zip build
-      
-      - name: Display structure of downloaded files
-        run: ls
-
+        run: cd build && zip -r ../release.zip .
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1

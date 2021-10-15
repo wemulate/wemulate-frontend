@@ -21,13 +21,18 @@ jobs:
     name: Release Frontend
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: my-artifact
+      - name: Display structure of downloaded files
+        run: ls -R
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: artifact
+          tag_name: latest
           release_name: latest
       - name: Upload Release
         uses: actions/upload-release-asset@v1

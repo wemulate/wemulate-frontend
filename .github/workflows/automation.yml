@@ -1,4 +1,4 @@
-name: Build WEmulate frontend
+name: Build & Release WEmulate frontend
 on: push
 jobs:
   build:
@@ -11,8 +11,30 @@ jobs:
         run: npm install
       - name: Build app
         run: npm run build
-      - name: Upload
+      - name: Create artifact
         uses: actions/upload-artifact@v2
         with:
-          name: test
+          name: artifact
           path: build/
+
+  release:
+    name: Release Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          name: artifact
+          release_name: latest
+      - name: Upload Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./my-artifact.zip
+          asset_name: my-artifact.zip
+          asset_content_type: application/zip

@@ -2,7 +2,7 @@ import { Connection } from '../models/Connection'
 import ConfigService from './ConfigService'
 
 export const getConnections = async (): Promise<Array<Connection>> => {
-  const response = await fetch(`${ConfigService.host}/api/v1/connections`, {
+  const response = await fetch(`${ConfigService.hostURL}/connections`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -23,16 +23,13 @@ export const connectionRequest = async (
   connection: Connection,
   id: string = '',
 ) => {
-  const response = await fetch(
-    `${ConfigService.host}/api/v1/connections/${id}`,
-    {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(connection.toDto()),
+  const response = await fetch(`${ConfigService.hostURL}/connections/${id}`, {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
     },
-  )
+    body: JSON.stringify(connection.toDto()),
+  })
 
   if (response.status !== 200) {
     throw new Error(

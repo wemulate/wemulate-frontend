@@ -1,8 +1,11 @@
 class ConfigService {
-  constructor(private _host: string = 'http://10.18.10.10:80') {}
+  constructor(
+    // eslint-disable-next-line no-restricted-globals
+    private _hostURL: string = `http://${location.hostname}:8080/api/v1`,
+  ) {}
 
-  get host(): string {
-    return this._host
+  get hostURL(): string {
+    return this._hostURL
   }
 }
 

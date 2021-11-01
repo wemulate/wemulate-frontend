@@ -18,7 +18,7 @@ import AddConnectionDialog from './components/AddConnectionDialog'
 import TitleBar from './components/TitleBar'
 import Tooltip from '@mui/material/Tooltip'
 import LinearProgress from '@mui/material/LinearProgress'
-import SuccessMessage from './components/SuccessMessage'
+import SnackbarMessage from './components/SnackbarMessage'
 
 const App: React.FC = () => {
   const [device, setDevice] = useState<Device>(new Device([], []))
@@ -144,7 +144,11 @@ const App: React.FC = () => {
         ></SpeedDial>
       </Tooltip>
       {success && (
-        <SuccessMessage success={success} removeSuccess={removeSuccess} />
+        <SnackbarMessage
+          messageText={success}
+          clearMessage={removeSuccess}
+          color={'success'}
+        />
       )}
     </div>
   )

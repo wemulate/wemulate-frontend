@@ -3,7 +3,7 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import logo from '../static/wemulate_logo.png'
 import { version } from './../../package.json'
-import ErrorMessage from './ErrorMessage'
+import SnackbarMessage from './SnackbarMessage'
 
 type Props = {
   error: string | null
@@ -22,7 +22,13 @@ const TitleBar: React.FC<Props> = ({ error, removeError }) => {
           <Typography>{version}</Typography>
         </Toolbar>
       </AppBar>
-      {error && <ErrorMessage error={error} removeError={removeError} />}
+      {error && (
+        <SnackbarMessage
+          messageText={error}
+          clearMessage={removeError}
+          color={'error'}
+        />
+      )}
     </div>
   )
 }

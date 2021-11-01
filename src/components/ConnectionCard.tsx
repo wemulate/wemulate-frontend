@@ -22,7 +22,7 @@ import Backdrop from '@mui/material/Backdrop'
 type Props = {
   connection: Connection
   editConnection: (x: Connection) => Promise<void>
-  removeConnection: (x: Connection) => void
+  removeConnection: (x: Connection) => Promise<void>
   getLogicalInterfaceNameById: (x: number) => string | undefined
 }
 
@@ -37,8 +37,10 @@ const ConnectionCard: React.FC<Props> = ({
   const handleCloseEditConnection = () => setOpenEditConnection(false)
   const [isLoading, setIsLoading] = useState(false)
 
-  const deleteConnection = () => {
-    removeConnection(connection)
+  const deleteConnection = async () => {
+    setIsLoading(true)
+    await removeConnection(connection)
+    setIsLoading(false)
   }
 
   return (

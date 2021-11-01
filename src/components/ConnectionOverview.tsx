@@ -5,7 +5,7 @@ import ConnectionCard from './ConnectionCard'
 type Props = {
   connections: Array<Connection>
   editConnection: (x: Connection) => Promise<void>
-  removeConnection: (x: Connection) => void
+  removeConnection: (x: Connection) => Promise<void>
   getLogicalInterfaceNameById: (id: number) => string | undefined
 }
 

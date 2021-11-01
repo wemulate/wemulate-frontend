@@ -16,13 +16,14 @@ import FlashOnIcon from '@mui/icons-material/FlashOn'
 import EditConnectionDialog from './EditConnectionDialog'
 import { useState } from 'react'
 import CardActionArea from '@mui/material/CardActionArea'
+import CircularProgress from '@mui/material/CircularProgress'
+import Backdrop from '@mui/material/Backdrop'
 
 type Props = {
   connection: Connection
-  editConnection: (x: Connection) => void
-  removeConnection: (x: Connection) => void
+  editConnection: (x: Connection) => Promise<void>
+  removeConnection: (x: Connection) => Promise<void>
   getLogicalInterfaceNameById: (x: number) => string | undefined
-  connections: Array<Connection>
 }
 
 const ConnectionCard: React.FC<Props> = ({
@@ -30,19 +31,33 @@ const ConnectionCard: React.FC<Props> = ({
   editConnection,
   removeConnection,
   getLogicalInterfaceNameById,
-  connections,
 }) => {
   const [openEditConnection, setOpenEditConnection] = useState<boolean>(false)
   const handleOpenEditConnection = () => setOpenEditConnection(true)
   const handleCloseEditConnection = () => setOpenEditConnection(false)
+  const [isLoading, setIsLoading] = useState(false)
 
-  const deleteConnection = () => {
-    removeConnection(connection)
+  const deleteConnection = async () => {
+    setIsLoading(true)
+    await removeConnection(connection)
+    setIsLoading(false)
   }
 
   return (
     <div>
-      <Card>
+      <Card sx={{ position: 'relative' }}>
+        {isLoading && (
+          <Backdrop
+            sx={{
+              color: '#fff',
+              position: 'absolute',
+              zIndex: 100,
+            }}
+            open={isLoading}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
+        )}
         <CardActionArea onClick={handleOpenEditConnection}>
           <CardContent>
             <Typography variant="h5" component="div">
@@ -117,7 +132,7 @@ const ConnectionCard: React.FC<Props> = ({
         onCloseHandler={handleCloseEditConnection}
         editConnection={editConnection}
         open={openEditConnection}
-        connections={connections}
+        setIsLoading={setIsLoading}
       />
     </div>
   )

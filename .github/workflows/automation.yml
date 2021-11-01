@@ -1,5 +1,9 @@
 name: Build & Release WEmulate Frontend
-on: push
+on:
+  push:
+    tags:
+      - 'v*'
+
 jobs:
   build:
     name: Build & Release WEmulate Frontend

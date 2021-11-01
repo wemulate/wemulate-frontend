@@ -3,11 +3,10 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import logo from '../static/wemulate_logo.png'
 import { version } from './../../package.json'
-import { CustomError } from '../models/CustomError'
 import ErrorMessage from './ErrorMessage'
 
 type Props = {
-  error: CustomError | null
+  error: string | null
   removeError: () => void
 }
 

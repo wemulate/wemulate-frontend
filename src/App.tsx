@@ -18,14 +18,15 @@ import AddConnectionDialog from './components/AddConnectionDialog'
 import TitleBar from './components/TitleBar'
 import Tooltip from '@mui/material/Tooltip'
 import LinearProgress from '@mui/material/LinearProgress'
-import { CustomError } from './models/CustomError'
+import SuccessMessage from './components/SuccessMessage'
 
 const App: React.FC = () => {
   const [device, setDevice] = useState<Device>(new Device([], []))
   const [connections, setConnections] = useState<Array<Connection>>([])
   const [openAddConnection, setOpenAddConnection] = useState<boolean>(false)
   const [initLoading, setInitLoading] = useState<boolean>(true)
-  const [error, setError] = useState<CustomError | null>(null)
+  const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState<string | null>(null)
 
   useEffect(() => {
     const asyncInit = async () => {
@@ -34,7 +35,7 @@ const App: React.FC = () => {
         setConnections(await getConnections())
         setInitLoading(false)
       } catch (e) {
-        setError(new CustomError((e as Error).message))
+        setError((e as Error).message)
       }
     }
     asyncInit()
@@ -42,6 +43,10 @@ const App: React.FC = () => {
 
   const removeError = () => {
     setError(null)
+  }
+
+  const removeSuccess = () => {
+    setSuccess(null)
   }
 
   const handleOpenAddConnection = () => setOpenAddConnection(true)
@@ -53,8 +58,9 @@ const App: React.FC = () => {
       setConnections(
         connections.filter((x) => x.connectionId !== connection.connectionId),
       )
+      setSuccess('Connection successfully deleted')
     } catch (e) {
-      setError(new CustomError((e as Error).message))
+      setError((e as Error).message)
     }
   }
 
@@ -69,8 +75,9 @@ const App: React.FC = () => {
         newState[index] = connection
         return newState
       })
+      setSuccess('Connection successfully adjusted')
     } catch (e) {
-      setError(new CustomError((e as Error).message))
+      setError((e as Error).message)
     }
   }
 
@@ -78,8 +85,9 @@ const App: React.FC = () => {
     try {
       const newConnection = await postConnection(connection)
       setConnections((prevState) => [...prevState, newConnection])
+      setSuccess('Connection successfully added')
     } catch (e) {
-      setError(new CustomError((e as Error).message))
+      setError((e as Error).message)
     }
   }
 
@@ -135,6 +143,9 @@ const App: React.FC = () => {
           onClick={handleOpenAddConnection}
         ></SpeedDial>
       </Tooltip>
+      {success && (
+        <SuccessMessage success={success} removeSuccess={removeSuccess} />
+      )}
     </div>
   )
 }

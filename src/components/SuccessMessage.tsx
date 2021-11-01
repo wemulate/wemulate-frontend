@@ -3,11 +3,11 @@ import Snackbar from '@mui/material/Snackbar'
 import { useState } from 'react'
 
 type Props = {
-  error: string
-  removeError: () => void
+  success: string
+  removeSuccess: () => void
 }
 
-const ErrorMessage: React.FC<Props> = ({ error, removeError }) => {
+const SuccessMessage: React.FC<Props> = ({ success, removeSuccess }) => {
   const [open, setOpen] = useState(true)
 
   return (
@@ -15,26 +15,26 @@ const ErrorMessage: React.FC<Props> = ({ error, removeError }) => {
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         open={open}
-        autoHideDuration={7000}
+        autoHideDuration={5000}
         onClose={() => {
           setOpen(false)
-          removeError()
+          removeSuccess()
         }}
       >
         <Alert
           onClose={() => {
             setOpen(false)
-            removeError()
+            removeSuccess()
           }}
           variant="filled"
-          severity="error"
+          severity="success"
           sx={{ mb: 1 }}
         >
-          {error}
+          {success}
         </Alert>
       </Snackbar>
     </div>
   )
 }
 
-export default ErrorMessage
+export default SuccessMessage

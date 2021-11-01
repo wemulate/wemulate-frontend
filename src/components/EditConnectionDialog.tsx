@@ -12,8 +12,8 @@ type Props = {
   connection: Connection
   onCloseHandler: () => void
   open: boolean
-  editConnection: (x: Connection) => void
-  connections: Array<Connection>
+  editConnection: (x: Connection) => Promise<void>
+  setIsLoading: (x: boolean) => void
 }
 
 const EditConnectionDialog: React.FC<Props> = ({
@@ -21,7 +21,7 @@ const EditConnectionDialog: React.FC<Props> = ({
   onCloseHandler,
   open,
   editConnection,
-  connections,
+  setIsLoading,
 }) => {
   const formSchema = yup.object({
     delay: yup.number().min(0).max(100000).required(),
@@ -38,14 +38,15 @@ const EditConnectionDialog: React.FC<Props> = ({
       jitter: connection.jitter,
     },
     validationSchema: formSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       // onCloseHandler has to be called first,
       // otherwise react shows an error because of its state
-      // e.g. when updating the connection name
+      // e.g. when updating delay
       // that is updated in an unmounted component
-      // TODO: understand whyd...
+      // TODO: understand why...
       onCloseHandler()
-      editConnection(
+      setIsLoading(true)
+      await editConnection(
         new Connection(
           connection.connectionName,
           connection.connectionId,
@@ -57,6 +58,7 @@ const EditConnectionDialog: React.FC<Props> = ({
           values.jitter,
         ),
       )
+      setIsLoading(false)
     },
   })
 

@@ -100,23 +100,23 @@ const ConnectionCard: React.FC<Props> = ({
               <ListItem>
                 <ListItemAvatar>
                   <Avatar>
-                    <SpeedIcon />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                  primary="Bandwidth"
-                  secondary={`${connection.bandwidth} Mbit/s`}
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemAvatar>
-                  <Avatar>
                     <FlashOnIcon />
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
                   primary="Jitter"
                   secondary={`${connection.jitter} ms`}
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    <SpeedIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary="Bandwidth"
+                  secondary={`${connection.bandwidth} Mbit/s`}
                 />
               </ListItem>
             </List>
@@ -133,6 +133,7 @@ const ConnectionCard: React.FC<Props> = ({
         editConnection={editConnection}
         open={openEditConnection}
         setIsLoading={setIsLoading}
+        getLogicalInterfaceNameById={getLogicalInterfaceNameById}
       />
     </div>
   )

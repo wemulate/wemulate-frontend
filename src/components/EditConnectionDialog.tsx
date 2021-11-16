@@ -7,6 +7,8 @@ import DialogActions from '@mui/material/DialogActions'
 import Button from '@mui/material/Button'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
+import DialogContentText from '@mui/material/DialogContentText'
+import Divider from '@mui/material/Divider'
 
 type Props = {
   connection: Connection
@@ -14,6 +16,7 @@ type Props = {
   open: boolean
   editConnection: (x: Connection) => Promise<void>
   setIsLoading: (x: boolean) => void
+  getLogicalInterfaceNameById: (x: number) => string | undefined
 }
 
 const EditConnectionDialog: React.FC<Props> = ({
@@ -22,6 +25,7 @@ const EditConnectionDialog: React.FC<Props> = ({
   open,
   editConnection,
   setIsLoading,
+  getLogicalInterfaceNameById,
 }) => {
   const formSchema = yup.object({
     delay: yup.number().min(0).max(100000).required(),
@@ -67,6 +71,14 @@ const EditConnectionDialog: React.FC<Props> = ({
       <form onSubmit={formik.handleSubmit}>
         <DialogTitle>Edit Connection: {connection.connectionName}</DialogTitle>
         <DialogContent>
+          <DialogContentText sx={{ marginBottom: 1 }}>
+            {`Unidirectional
+            [${getLogicalInterfaceNameById(
+              connection.firstLogicalInterfaceId,
+            )} => ${getLogicalInterfaceNameById(
+              connection.secondLogicalInterfaceId,
+            )}]`}
+          </DialogContentText>
           <TextField
             margin="dense"
             id="delay"
@@ -99,22 +111,6 @@ const EditConnectionDialog: React.FC<Props> = ({
           />
           <TextField
             margin="dense"
-            id="bandwidth"
-            name="bandwidth"
-            label="Bandwidth in Mbit/s"
-            type="number"
-            fullWidth
-            value={formik.values.bandwidth}
-            onChange={formik.handleChange}
-            error={
-              formik.errors.bandwidth !== undefined &&
-              formik.touched.bandwidth &&
-              true
-            }
-            helperText={formik.touched.bandwidth && formik.errors.bandwidth}
-          />
-          <TextField
-            margin="dense"
             id="jitter"
             name="jitter"
             label="Jitter in ms"
@@ -128,6 +124,26 @@ const EditConnectionDialog: React.FC<Props> = ({
               true
             }
             helperText={formik.touched.jitter && formik.errors.jitter}
+          />
+          <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
+          <DialogContentText sx={{ marginBottom: 1 }}>
+            Bidirectional
+          </DialogContentText>
+          <TextField
+            margin="dense"
+            id="bandwidth"
+            name="bandwidth"
+            label="Bandwidth in Mbit/s"
+            type="number"
+            fullWidth
+            value={formik.values.bandwidth}
+            onChange={formik.handleChange}
+            error={
+              formik.errors.bandwidth !== undefined &&
+              formik.touched.bandwidth &&
+              true
+            }
+            helperText={formik.touched.bandwidth && formik.errors.bandwidth}
           />
         </DialogContent>
         <DialogActions>

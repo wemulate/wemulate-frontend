@@ -74,9 +74,9 @@ const EditConnectionDialog: React.FC<Props> = ({
           <DialogContentText sx={{ marginBottom: 1 }}>
             {`Unidirectional
             [${getLogicalInterfaceNameById(
-              connection.firstLogicalInterfaceId,
-            )} => ${getLogicalInterfaceNameById(
               connection.secondLogicalInterfaceId,
+            )} => ${getLogicalInterfaceNameById(
+              connection.firstLogicalInterfaceId,
             )}]`}
           </DialogContentText>
           <TextField

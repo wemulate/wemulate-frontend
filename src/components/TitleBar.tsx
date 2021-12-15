@@ -2,7 +2,6 @@ import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import logo from '../static/wemulate_logo.png'
-import { version } from './../../package.json'
 import SnackbarMessage from './SnackbarMessage'
 
 type Props = {
@@ -19,7 +18,7 @@ const TitleBar: React.FC<Props> = ({ error, removeError }) => {
           <Typography variant="h5" sx={{ flexGrow: 1 }}>
             WEmulate
           </Typography>
-          <Typography>{version}</Typography>
+          <Typography>{process.env.REACT_APP_VERSION}</Typography>
         </Toolbar>
       </AppBar>
       {error && (

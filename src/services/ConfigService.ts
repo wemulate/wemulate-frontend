@@ -6,7 +6,7 @@ class ConfigService {
       process.env.NODE_ENV === 'production'
         ? // eslint-disable-next-line no-restricted-globals
           `${location.origin}/api/v1`
-        : 'http://localhost:8000/api/v1'
+        : `${process.env.REACT_APP_BACKEND_URL_DEV}/api/v1`
   }
 
   get hostURL(): string {

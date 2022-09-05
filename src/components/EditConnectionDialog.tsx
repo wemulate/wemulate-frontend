@@ -118,7 +118,7 @@ const EditConnectionDialog: React.FC<Props> = ({
                 id="delayIn"
                 name="delayIn"
                 label="Delay in ms"
-                type="t"
+                type="text"
                 fullWidth
                 value={formik.values.delayIn}
                 onChange={formik.handleChange}
@@ -134,7 +134,7 @@ const EditConnectionDialog: React.FC<Props> = ({
                 id="packetLossIn"
                 name="packetLossIn"
                 label="Packet Loss in %"
-                type="t"
+                type="text"
                 fullWidth
                 value={formik.values.packetLossIn}
                 onChange={formik.handleChange}
@@ -152,7 +152,7 @@ const EditConnectionDialog: React.FC<Props> = ({
                 id="jitterIn"
                 name="jitterIn"
                 label="Jitter in ms"
-                type="t"
+                type="text"
                 fullWidth
                 value={formik.values.jitterIn}
                 onChange={formik.handleChange}
@@ -168,7 +168,7 @@ const EditConnectionDialog: React.FC<Props> = ({
                 id="bandwidthIn"
                 name="bandwidthIn"
                 label="Bandwidth in Mbit/s"
-                type="t"
+                type="text"
                 fullWidth
                 value={formik.values.bandwidthIn}
                 onChange={formik.handleChange}
@@ -196,7 +196,7 @@ const EditConnectionDialog: React.FC<Props> = ({
                 id="delayOut"
                 name="delayOut"
                 label="Delay in ms"
-                type="t"
+                type="text"
                 fullWidth
                 value={formik.values.delayOut}
                 onChange={formik.handleChange}
@@ -212,7 +212,7 @@ const EditConnectionDialog: React.FC<Props> = ({
                 id="packetLossOut"
                 name="packetLossOut"
                 label="Packet Loss in %"
-                type="t"
+                type="text"
                 fullWidth
                 value={formik.values.packetLossOut}
                 onChange={formik.handleChange}
@@ -230,7 +230,7 @@ const EditConnectionDialog: React.FC<Props> = ({
                 id="jitterOut"
                 name="jitterOut"
                 label="Jitter in ms"
-                type="t"
+                type="text"
                 fullWidth
                 value={formik.values.jitterOut}
                 onChange={formik.handleChange}
@@ -246,7 +246,7 @@ const EditConnectionDialog: React.FC<Props> = ({
                 id="bandwidthOut"
                 name="bandwidthOut"
                 label="Bandwidth in Mbit/s"
-                type="t"
+                type="text"
                 fullWidth
                 value={formik.values.bandwidthOut}
                 onChange={formik.handleChange}

@@ -18,6 +18,8 @@ import { useState } from 'react'
 import CardActionArea from '@mui/material/CardActionArea'
 import CircularProgress from '@mui/material/CircularProgress'
 import Backdrop from '@mui/material/Backdrop'
+import DeleteIcon from '@mui/icons-material/Delete'
+import ModeEditIcon from '@mui/icons-material/ModeEdit'
 
 type Props = {
   connection: Connection
@@ -43,6 +45,10 @@ const ConnectionCard: React.FC<Props> = ({
     setIsLoading(false)
   }
 
+  const bandwidthMaxValue = (bandwidth: number) =>
+    // eslint-disable-next-line eqeqeq
+    bandwidth == 0 ? '∞' : bandwidth
+
   return (
     <div>
       <Card sx={{ position: 'relative' }}>
@@ -63,7 +69,9 @@ const ConnectionCard: React.FC<Props> = ({
             <Typography variant="h5" component="div">
               {`${getLogicalInterfaceNameById(
                 connection.firstLogicalInterfaceId,
-              )} <> ${getLogicalInterfaceNameById(
+              )}
+              ⇄
+              ${getLogicalInterfaceNameById(
                 connection.secondLogicalInterfaceId,
               )}`}
             </Typography>
@@ -83,7 +91,7 @@ const ConnectionCard: React.FC<Props> = ({
                 </ListItemAvatar>
                 <ListItemText
                   primary="Delay"
-                  secondary={`${connection.delay} ms`}
+                  secondary={`${connection.settingsIncoming.delay} ms 🡆 | 🡄 ${connection.settingsOutgoing.delay} ms`}
                 />
               </ListItem>
               <ListItem>
@@ -94,7 +102,7 @@ const ConnectionCard: React.FC<Props> = ({
                 </ListItemAvatar>
                 <ListItemText
                   primary="Packet Loss"
-                  secondary={`${connection.packetLoss} %`}
+                  secondary={`${connection.settingsIncoming.packetLoss} % 🡆 | 🡄 ${connection.settingsOutgoing.packetLoss} %`}
                 />
               </ListItem>
               <ListItem>
@@ -105,7 +113,7 @@ const ConnectionCard: React.FC<Props> = ({
                 </ListItemAvatar>
                 <ListItemText
                   primary="Jitter"
-                  secondary={`${connection.jitter} ms`}
+                  secondary={`${connection.settingsIncoming.jitter} ms 🡆 | 🡄 ${connection.settingsOutgoing.jitter} ms`}
                 />
               </ListItem>
               <ListItem>
@@ -116,15 +124,31 @@ const ConnectionCard: React.FC<Props> = ({
                 </ListItemAvatar>
                 <ListItemText
                   primary="Bandwidth"
-                  secondary={`${connection.bandwidth} Mbit/s`}
+                  secondary={`${bandwidthMaxValue(
+                    connection.settingsIncoming.bandwidth,
+                  )} Mbit/s 🡆 | 🡄 ${bandwidthMaxValue(
+                    connection.settingsOutgoing.bandwidth,
+                  )} Mbit/s`}
                 />
               </ListItem>
             </List>
           </CardContent>
         </CardActionArea>
-        <CardActions>
-          <Button onClick={handleOpenEditConnection}>edit</Button>
-          <Button onClick={deleteConnection}>delete</Button>
+        <CardActions sx={{ marginLeft: 1, marginBottom: 1 }}>
+          <Button
+            onClick={handleOpenEditConnection}
+            variant="outlined"
+            startIcon={<ModeEditIcon />}
+          >
+            edit
+          </Button>
+          <Button
+            onClick={deleteConnection}
+            variant="outlined"
+            startIcon={<DeleteIcon />}
+          >
+            delete
+          </Button>
         </CardActions>
       </Card>
       <EditConnectionDialog

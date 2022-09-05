@@ -1,13 +1,13 @@
+import { Settings } from './Settings'
+
 export class Connection {
   constructor(
     public connectionName: string,
     public connectionId: number,
     public firstLogicalInterfaceId: number,
     public secondLogicalInterfaceId: number,
-    public delay: number,
-    public packetLoss: number,
-    public bandwidth: number,
-    public jitter: number,
+    public settingsIncoming: Settings,
+    public settingsOutgoing: Settings,
   ) {}
 
   public static fromDto(dto: any) {
@@ -16,10 +16,8 @@ export class Connection {
       dto.connection_id ? dto.connection_id : 0,
       dto.first_logical_interface_id ? dto.first_logical_interface_id : 0,
       dto.second_logical_interface_id ? dto.second_logical_interface_id : 0,
-      dto.delay ? dto.delay : 0,
-      dto.packet_loss ? dto.packet_loss : 0,
-      dto.bandwidth ? dto.bandwidth : 1000,
-      dto.jitter ? dto.jitter : 0,
+      dto.incoming ? Settings.fromDto(dto.incoming) : Settings.fromDto({}),
+      dto.outgoing ? Settings.fromDto(dto.outgoing) : Settings.fromDto({}),
     )
   }
 
@@ -29,10 +27,8 @@ export class Connection {
       connection_id: this.connectionId,
       first_logical_interface_id: this.firstLogicalInterfaceId,
       second_logical_interface_id: this.secondLogicalInterfaceId,
-      delay: this.delay,
-      packet_loss: this.packetLoss,
-      bandwidth: this.bandwidth,
-      jitter: this.jitter,
+      incoming: this.settingsIncoming.toDto(),
+      outgoing: this.settingsOutgoing.toDto(),
     }
   }
 }

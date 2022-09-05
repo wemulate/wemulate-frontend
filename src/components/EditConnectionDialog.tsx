@@ -10,8 +10,9 @@ import { useFormik } from 'formik'
 import DialogContentText from '@mui/material/DialogContentText'
 import { Settings } from '../models/Settings'
 import SaveIcon from '@mui/icons-material/Save'
-import { Grid } from '@mui/material'
+import { Grid, Link, Typography } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
+import InfoIcon from '@mui/icons-material/Info'
 
 type Props = {
   connection: Connection
@@ -88,7 +89,19 @@ const EditConnectionDialog: React.FC<Props> = ({
   return (
     <Dialog open={open} onClose={onCloseHandler}>
       <form onSubmit={formik.handleSubmit}>
-        <DialogTitle>Edit Connection: {connection.connectionName}</DialogTitle>
+        <DialogTitle sx={{ display: 'flex' }}>
+          <Typography variant="h5" sx={{ flexGrow: 1 }}>
+            Edit Connection: {connection.connectionName}
+          </Typography>
+          <Link
+            sx={{ ':hover': { color: '#fecb36' } }}
+            rel="noreferrer"
+            target="_blank"
+            href="https://wemulate.github.io/wemulate/dev/incoming-outgoing-explanation.html"
+          >
+            <InfoIcon />
+          </Link>
+        </DialogTitle>
         <DialogContent>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>

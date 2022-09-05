@@ -30,12 +30,6 @@ const EditConnectionDialog: React.FC<Props> = ({
   setIsLoading,
   getLogicalInterfaceNameById,
 }) => {
-  interface TabPanelProps {
-    children?: React.ReactNode
-    index: number
-    value: number
-  }
-
   const formSchema = yup.object({
     delayIn: yup.number().min(0).max(100000).required(),
     delayOut: yup.number().min(0).max(100000).required(),

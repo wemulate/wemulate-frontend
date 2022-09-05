@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import ConnectionOverview from './components/ConnectionOverview'
 import DeviceOverview from './components/DeviceOverview'
 import { Connection } from './models/Connection'
@@ -21,7 +21,6 @@ import LinearProgress from '@mui/material/LinearProgress'
 import SnackbarMessage from './components/SnackbarMessage'
 import { ThemeProvider, createTheme, Theme } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
-import { Switch } from '@mui/material'
 
 const darkTheme = createTheme({
   palette: {

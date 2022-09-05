@@ -10,6 +10,8 @@ import MenuItem from '@mui/material/MenuItem'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
 import { Connection } from '../models/Connection'
+import CloseIcon from '@mui/icons-material/Close'
+import AddIcon from '@mui/icons-material/Add'
 
 type Props = {
   onCloseHandler: () => void
@@ -76,8 +78,14 @@ const AddConnectionDialog: React.FC<Props> = ({
             {logicalInterfaces.length > 1 && ' left'}!
           </DialogContentText>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={onCloseHandler}>Close</Button>
+        <DialogActions sx={{ marginRight: 2, marginBottom: 2 }}>
+          <Button
+            onClick={onCloseHandler}
+            variant="outlined"
+            startIcon={<CloseIcon />}
+          >
+            Cancel
+          </Button>
         </DialogActions>
       </Dialog>
     )
@@ -163,9 +171,17 @@ const AddConnectionDialog: React.FC<Props> = ({
             })}
           </TextField>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={onCloseHandler}>Cancel</Button>
-          <Button type="submit">Add</Button>
+        <DialogActions sx={{ marginRight: 2, marginBottom: 2 }}>
+          <Button
+            onClick={onCloseHandler}
+            variant="outlined"
+            startIcon={<CloseIcon />}
+          >
+            Cancel
+          </Button>
+          <Button type="submit" variant="outlined" startIcon={<AddIcon />}>
+            Add
+          </Button>
         </DialogActions>
       </form>
     </Dialog>

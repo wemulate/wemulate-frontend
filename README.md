@@ -1,6 +1,6 @@
 # WEmulate Frontend
 
-This project is the official frontend for the [WEmulate CLI tool](https://github.com/wemulate/wemulate). It is installed with the `--frontend` parameter from the documented install command for [WEmulate](https://github.com/wemulate/wemulate).
+This project is the official frontend for the [WEmulate CLI tool](https://github.com/wemulate/wemulate). It is installed with the `-v` parameter from the documented install command for [WEmulate](https://github.com/wemulate/wemulate).
 
 ![](wemulate-intro.gif)
 

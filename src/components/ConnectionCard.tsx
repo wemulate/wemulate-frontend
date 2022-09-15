@@ -20,6 +20,8 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Backdrop from '@mui/material/Backdrop'
 import DeleteIcon from '@mui/icons-material/Delete'
 import ModeEditIcon from '@mui/icons-material/ModeEdit'
+import React from 'react'
+import ConfirmationDialog from './ConfirmationDialog'
 
 type Props = {
   connection: Connection
@@ -37,9 +39,13 @@ const ConnectionCard: React.FC<Props> = ({
   const [openEditConnection, setOpenEditConnection] = useState<boolean>(false)
   const handleOpenEditConnection = () => setOpenEditConnection(true)
   const handleCloseEditConnection = () => setOpenEditConnection(false)
+  const [openRemoveConfirm, setOpenRemoveConfirm] = useState<boolean>(false)
+  const handleOpenRemoveConfirm = () => setOpenRemoveConfirm(true)
+  const handleCloseRemoveConfirm = () => setOpenRemoveConfirm(false)
   const [isLoading, setIsLoading] = useState(false)
 
-  const deleteConnection = async () => {
+  const handleRemoveConnection = async () => {
+    handleCloseRemoveConfirm()
     setIsLoading(true)
     await removeConnection(connection)
     setIsLoading(false)
@@ -50,7 +56,7 @@ const ConnectionCard: React.FC<Props> = ({
     bandwidth == 0 ? '∞' : bandwidth
 
   return (
-    <div>
+    <React.Fragment>
       <Card sx={{ position: 'relative' }}>
         {isLoading && (
           <Backdrop
@@ -143,11 +149,11 @@ const ConnectionCard: React.FC<Props> = ({
             edit
           </Button>
           <Button
-            onClick={deleteConnection}
+            onClick={handleOpenRemoveConfirm}
             variant="outlined"
             startIcon={<DeleteIcon />}
           >
-            delete
+            Remove
           </Button>
         </CardActions>
       </Card>
@@ -159,7 +165,14 @@ const ConnectionCard: React.FC<Props> = ({
         setIsLoading={setIsLoading}
         getLogicalInterfaceNameById={getLogicalInterfaceNameById}
       />
-    </div>
+      <ConfirmationDialog
+        onCloseHandler={handleCloseRemoveConfirm}
+        onConfirmHandler={handleRemoveConnection}
+        open={openRemoveConfirm}
+        title="Delete Connection"
+        text={`Do you really want to delete the connection ${connection.connectionName}?`}
+      />
+    </React.Fragment>
   )
 }
 

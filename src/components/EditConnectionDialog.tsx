@@ -13,6 +13,7 @@ import SaveIcon from '@mui/icons-material/Save'
 import { Grid, Link, Typography } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import InfoIcon from '@mui/icons-material/Info'
+import RestartAltIcon from '@mui/icons-material/RestartAlt'
 
 type Props = {
   connection: Connection
@@ -85,6 +86,10 @@ const EditConnectionDialog: React.FC<Props> = ({
       setIsLoading(false)
     },
   })
+
+  const handleResetForm = () => {
+    formik.resetForm()
+  }
 
   return (
     <Dialog open={open} onClose={onCloseHandler}>
@@ -262,17 +267,40 @@ const EditConnectionDialog: React.FC<Props> = ({
             </Grid>
           </Grid>
         </DialogContent>
-        <DialogActions sx={{ marginTop: -1, marginRight: 2, marginBottom: 2 }}>
+        <DialogActions
+          sx={{
+            marginTop: -1,
+            marginRight: 2,
+            marginBottom: 2,
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+        >
           <Button
-            onClick={onCloseHandler}
             variant="outlined"
-            startIcon={<CloseIcon />}
+            startIcon={<RestartAltIcon />}
+            onClick={handleResetForm}
+            sx={{ marginLeft: 2 }}
           >
-            Cancel
+            Reset
           </Button>
-          <Button type="submit" variant="outlined" startIcon={<SaveIcon />}>
-            Save
-          </Button>
+          <div>
+            <Button
+              onClick={onCloseHandler}
+              variant="outlined"
+              startIcon={<CloseIcon />}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              variant="outlined"
+              startIcon={<SaveIcon />}
+              sx={{ marginLeft: 1 }}
+            >
+              Save
+            </Button>
+          </div>
         </DialogActions>
       </form>
     </Dialog>

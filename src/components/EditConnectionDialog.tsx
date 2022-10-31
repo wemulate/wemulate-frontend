@@ -114,7 +114,7 @@ const EditConnectionDialog: React.FC<Props> = ({
                 {`
                 ${getLogicalInterfaceNameById(
                   connection.firstLogicalInterfaceId,
-                )} 🡆 ${getLogicalInterfaceNameById(
+                )} --> ${getLogicalInterfaceNameById(
                   connection.secondLogicalInterfaceId,
                 )}`}
               </DialogContentText>
@@ -192,7 +192,7 @@ const EditConnectionDialog: React.FC<Props> = ({
                 {`
                 ${getLogicalInterfaceNameById(
                   connection.firstLogicalInterfaceId,
-                )} 🡄 ${getLogicalInterfaceNameById(
+                )} <-- ${getLogicalInterfaceNameById(
                   connection.secondLogicalInterfaceId,
                 )}`}
               </DialogContentText>

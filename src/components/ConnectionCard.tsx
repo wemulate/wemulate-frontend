@@ -97,7 +97,7 @@ const ConnectionCard: React.FC<Props> = ({
                 </ListItemAvatar>
                 <ListItemText
                   primary="Delay"
-                  secondary={`${connection.settingsIncoming.delay} ms 🡆 | 🡄 ${connection.settingsOutgoing.delay} ms`}
+                  secondary={`${connection.settingsIncoming.delay} ms --> | <-- ${connection.settingsOutgoing.delay} ms`}
                 />
               </ListItem>
               <ListItem>
@@ -108,7 +108,7 @@ const ConnectionCard: React.FC<Props> = ({
                 </ListItemAvatar>
                 <ListItemText
                   primary="Packet Loss"
-                  secondary={`${connection.settingsIncoming.packetLoss} % 🡆 | 🡄 ${connection.settingsOutgoing.packetLoss} %`}
+                  secondary={`${connection.settingsIncoming.packetLoss} % --> | <-- ${connection.settingsOutgoing.packetLoss} %`}
                 />
               </ListItem>
               <ListItem>
@@ -119,7 +119,7 @@ const ConnectionCard: React.FC<Props> = ({
                 </ListItemAvatar>
                 <ListItemText
                   primary="Jitter"
-                  secondary={`${connection.settingsIncoming.jitter} ms 🡆 | 🡄 ${connection.settingsOutgoing.jitter} ms`}
+                  secondary={`${connection.settingsIncoming.jitter} ms --> | <-- ${connection.settingsOutgoing.jitter} ms`}
                 />
               </ListItem>
               <ListItem>
@@ -132,7 +132,7 @@ const ConnectionCard: React.FC<Props> = ({
                   primary="Bandwidth"
                   secondary={`${bandwidthMaxValue(
                     connection.settingsIncoming.bandwidth,
-                  )} Mbit/s 🡆 | 🡄 ${bandwidthMaxValue(
+                  )} Mbit/s --> | <-- ${bandwidthMaxValue(
                     connection.settingsOutgoing.bandwidth,
                   )} Mbit/s`}
                 />

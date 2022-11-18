@@ -73,6 +73,13 @@ const ConnectionCard: React.FC<Props> = ({
         <CardActionArea onClick={handleOpenEditConnection}>
           <CardContent>
             <Typography variant="h5" component="div">
+              {connection.connectionName}
+            </Typography>
+            <Typography
+              sx={{ fontSize: 18 }}
+              color="text.secondary"
+              gutterBottom
+            >
               {`${getLogicalInterfaceNameById(
                 connection.firstLogicalInterfaceId,
               )}
@@ -80,13 +87,6 @@ const ConnectionCard: React.FC<Props> = ({
               ${getLogicalInterfaceNameById(
                 connection.secondLogicalInterfaceId,
               )}`}
-            </Typography>
-            <Typography
-              sx={{ fontSize: 14, mb: 1.5 }}
-              color="text.secondary"
-              gutterBottom
-            >
-              {connection.connectionName}
             </Typography>
             <List>
               <ListItem>

@@ -1,8 +1,7 @@
 name: Build & Release WEmulate Frontend
 on:
-  push:
-    tags:
-      - 'v*'
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -20,20 +19,17 @@ jobs:
       - name: Get Release Version
         id: release_version
         uses: martinbeentjes/npm-get-version-action@master
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
+      - name: Get latest release url
+        id: latest_release
+        uses: bruceadams/get-release@v1.3.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ steps.release_version.outputs.current-version }}
-          release_name: Release v${{ steps.release_version.outputs.current-version }}
       - name: Upload Release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ steps.latest_release.outputs.upload_url }}
           asset_path: ./release.zip
           asset_name: release.zip
           asset_content_type: application/zip

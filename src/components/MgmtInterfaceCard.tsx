@@ -15,12 +15,12 @@ type Props = {
 
 const MgmtInterfaceCard: React.FC<Props> = ({ mgmtInterfaces }) => {
   return (
-    <Card>
+    <Card sx={{ height: "100%" }}>
       <CardContent>
         <Typography sx={{ mb: 1.5 }} variant="h5" component="div">
           Management Interfaces
         </Typography>
-        <List>
+        <List sx={{ paddingTop: 0, paddingBottom: 0 }}>
           {mgmtInterfaces.map((x: MgmtInterface) => {
             return (
               <ListItem key={x.ip}>

@@ -21,6 +21,7 @@ import LinearProgress from '@mui/material/LinearProgress'
 import SnackbarMessage from './components/SnackbarMessage'
 import { ThemeProvider, createTheme, Theme } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
+import Container from '@mui/material/Container'
 
 const darkTheme = createTheme({
   palette: {
@@ -41,7 +42,7 @@ const App: React.FC = () => {
   const [initLoading, setInitLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
-  const [colorTheme, setColorTheme] = useState<Theme>(lightTheme)
+  const [colorTheme, setColorTheme] = useState<Theme>(darkTheme)
 
   useEffect(() => {
     const asyncInit = async () => {
@@ -125,14 +126,15 @@ const App: React.FC = () => {
 
   if (initLoading) {
     return (
-      <div>
+      <ThemeProvider theme={colorTheme}>
+        <CssBaseline />
         <TitleBar
           changeTheme={changeTheme}
           error={error}
           removeError={removeError}
         />
         <LinearProgress />
-      </div>
+      </ThemeProvider>
     )
   }
 
@@ -144,12 +146,9 @@ const App: React.FC = () => {
         error={error}
         removeError={removeError}
       />
-
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={12} md={6} lg={6}>
+      <Container sx={{ mt: 2, mb: 2 }}>
+        <Grid container spacing={2}>
           <DeviceOverview device={device} usedInterfaceIds={usedInterfaceIds} />
-        </Grid>
-        <Grid item xs={12} sm={12} md={6} lg={6}>
           <ConnectionOverview
             connections={connections}
             editConnection={editConnection}
@@ -157,30 +156,30 @@ const App: React.FC = () => {
             getLogicalInterfaceNameById={getLogicalInterfaceNameById}
           />
         </Grid>
-      </Grid>
-      <AddConnectionDialog
-        onCloseHandler={handleCloseAddConnection}
-        open={openAddConnection}
-        logicalInterfaces={device.logicalInterfaces}
-        unusedLogicalInterfaces={unusedLogicalInterfaces}
-        addConnection={addConnection}
-        connections={connections}
-      />
-      <Tooltip title="Add a New Connection" placement="left" arrow>
-        <SpeedDial
-          ariaLabel="SpeedDial basic example"
-          sx={{ position: 'fixed', bottom: 16, right: 16 }}
-          icon={<AddIcon />}
-          onClick={handleOpenAddConnection}
-        ></SpeedDial>
-      </Tooltip>
-      {success && (
-        <SnackbarMessage
-          messageText={success}
-          clearMessage={removeSuccess}
-          color={'success'}
+        <AddConnectionDialog
+          onCloseHandler={handleCloseAddConnection}
+          open={openAddConnection}
+          logicalInterfaces={device.logicalInterfaces}
+          unusedLogicalInterfaces={unusedLogicalInterfaces}
+          addConnection={addConnection}
+          connections={connections}
         />
-      )}
+        <Tooltip title="Add a New Connection" placement="left" arrow>
+          <SpeedDial
+            ariaLabel="SpeedDial basic example"
+            sx={{ position: 'fixed', bottom: 16, right: 16 }}
+            icon={<AddIcon />}
+            onClick={handleOpenAddConnection}
+          ></SpeedDial>
+        </Tooltip>
+        {success && (
+          <SnackbarMessage
+            messageText={success}
+            clearMessage={removeSuccess}
+            color={'success'}
+          />
+        )}
+      </Container>
     </ThemeProvider>
   )
 }

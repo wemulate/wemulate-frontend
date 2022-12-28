@@ -22,7 +22,7 @@ const TitleBar: React.FC<Props> = ({ error, removeError, changeTheme }) => {
             WEmulate
           </Typography>
           <BrightnessMediumIcon />
-          <Switch onChange={changeTheme} />
+          <Switch onChange={changeTheme} defaultChecked />
           <Typography>{process.env.REACT_APP_VERSION}</Typography>
         </Toolbar>
       </AppBar>

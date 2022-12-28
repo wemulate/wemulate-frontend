@@ -71,7 +71,7 @@ const ConnectionCard: React.FC<Props> = ({
           </Backdrop>
         )}
         <CardActionArea onClick={handleOpenEditConnection}>
-          <CardContent>
+          <CardContent sx={{ paddingBottom: 1 }}>
             <Typography variant="h5" component="div">
               {connection.connectionName}
             </Typography>
@@ -88,7 +88,7 @@ const ConnectionCard: React.FC<Props> = ({
                 connection.secondLogicalInterfaceId,
               )}`}
             </Typography>
-            <List>
+            <List sx={{ paddingTop: 0, paddingBottom: 0 }}>
               <ListItem>
                 <ListItemAvatar>
                   <Avatar>

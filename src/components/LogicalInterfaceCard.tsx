@@ -20,12 +20,12 @@ const LogicalInterfaceCard: React.FC<Props> = ({
   usedInterfaceIds,
 }) => {
   return (
-    <Card>
+    <Card sx={{ height: "100%" }} >
       <CardContent>
         <Typography sx={{ mb: 1.5 }} variant="h5" component="div">
           Logical Interfaces
         </Typography>
-        <List>
+        <List sx={{ paddingTop: 0, paddingBottom: 0 }}>
           {logicalInterfaces.map((x: LogicalInterface) => {
             return (
               <ListItem key={x.interfaceId}>

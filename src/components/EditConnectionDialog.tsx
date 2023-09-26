@@ -104,7 +104,7 @@ const EditConnectionDialog: React.FC<Props> = ({
             sx={{ ':hover': { color: '#fecb36' }, display: 'flex', alignItems: 'center' }}
             rel="noreferrer"
             target="_blank"
-            href="https://wemulate.github.io/wemulate/dev/incoming-outgoing-explanation.html"
+            href="https://wemulate.github.io/wemulate/dev/incoming-outgoing-explanation/"
           >
             <Tooltip title="Configuration Infos" placement="bottom" arrow>
               <InfoIcon />
